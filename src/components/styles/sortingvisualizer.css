@@ -1,0 +1,14 @@
+.bars-container {
+	position: absolute;
+	bottom: 0;
+	left: 50%;
+	transform: translateX(-50%);
+	width: 100%;
+}
+
+.bar {
+	width: 2px;
+	background-color: green;
+	display: inline-block;
+	margin: 0 1px;
+}
