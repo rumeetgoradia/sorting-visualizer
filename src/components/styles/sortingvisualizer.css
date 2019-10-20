@@ -4,11 +4,19 @@
 	left: 50%;
 	transform: translateX(-50%);
 	width: 100%;
+	transition: margin 0.3s ease;
 }
 
 .bar {
-	width: 2px;
-	background-color: green;
+	width: 10px;
+	/* background-color: green; */
 	display: inline-block;
+	transition: all 0.3s ease;
 	margin: 0 1px;
+	padding: 0;
+}
+
+.complete .bar {
+	margin: 0;
+	padding: 0 1px;
 }
