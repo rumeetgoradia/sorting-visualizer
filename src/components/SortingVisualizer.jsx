@@ -3,16 +3,19 @@ import "./styles/sortingvisualizer.css"
 import {
 	bubbleSort,
 	insertionSort,
-	selectionSort
-} from "../algorithms/simplesorts"
+	selectionSort,
+	heapSort,
+	mergeSort
+} from "../algorithms/sortingalgorithms"
 
-import { randomInt } from "../algorithms/helpers"
+import { randomInt, complete } from "../algorithms/helpers"
 
 // Change this value for the speed of the animations.
+const MAXIMUM_ANIMATION_SPEED_MS = 1000
 const ANIMATION_SPEED_MS = 1
 
 // Change this value for the number of bars (value) in the array.
-const NUMBER_OF_ARRAY_BARS = 50
+const NUMBER_OF_ARRAY_BARS = 16
 
 // This is the main color of the array bars.
 const COMPARE_COLOR = "yellow"
@@ -30,6 +33,8 @@ const DEFAULT = -1
 const COMPARE = 0
 const SWAPPING = 1
 const SWAPPED = 2
+const PUT1 = 3
+const PUT2 = 4
 const COMPLETE = 5
 
 export default class SortingVisualizer extends Component {
@@ -148,7 +153,7 @@ export default class SortingVisualizer extends Component {
 		// 		color: arr_cols[i]
 		// 	})
 		// }
-		console.log(arr)
+		// console.log(arr)
 		this.setState({ arr, arr_cols: arr_cols_ordered, arr_vals })
 	}
 
@@ -170,14 +175,21 @@ export default class SortingVisualizer extends Component {
 		if (this.state.actions.length === 0) {
 			return
 		}
+		const btns = document.getElementsByClassName("btn")
+		console.log(btns)
+		for (let i = 0; i < btns.length; ++i) {
+			btns[i].disabled = true
+		}
 		const bars = document.getElementsByClassName("bar")
 		for (let i = 0; i < this.state.actions.length; ++i) {
 			const action = this.state.actions[i][0]
 			const first = this.state.actions[i][1]
-			const second = this.state.actions[i][2]
-			// console.log(first + ", " + second)
 			let bar1Style = bars[first].style
-			let bar2Style = bars[second].style
+			const second = this.state.actions[i][2]
+			let bar2Style
+			if (action !== PUT2 && action !== PUT1) {
+				bar2Style = bars[second].style
+			}
 			if (action === COMPARE) {
 				setTimeout(() => {
 					bar1Style.backgroundColor = COMPARE_COLOR
@@ -200,6 +212,14 @@ export default class SortingVisualizer extends Component {
 					bar2Style.height = temp
 					bar1Style.backgroundColor = arr_cols[first]
 					bar2Style.backgroundColor = arr_cols[second]
+				}, i * ANIMATION_SPEED_MS)
+			} else if (action === PUT1) {
+				setTimeout(() => {
+					bar1Style.backgroundColor = SWAP_COLOR
+				}, i * ANIMATION_SPEED_MS)
+			} else if (action === PUT2) {
+				setTimeout(() => {
+					bar1Style.height = `${second}px`
 				}, i * ANIMATION_SPEED_MS)
 			} else if (action === DEFAULT) {
 				setTimeout(() => {
@@ -227,6 +247,9 @@ export default class SortingVisualizer extends Component {
 				setTimeout(() => {
 					const container = document.getElementById("bars-container")
 					container.classList.add("complete")
+					for (let i = 0; i < btns.length; ++i) {
+						btns[i].disabled = false
+					}
 				}, i * ANIMATION_SPEED_MS + 750)
 			}
 		}
@@ -235,20 +258,57 @@ export default class SortingVisualizer extends Component {
 		this.setState({
 			actions: []
 		})
+		// generate.removeAttribute("disabled")
 	}
 
 	bubbleSortHelper() {
-		bubbleSort(this.state.arr_vals, this.state.actions)
+		bubbleSort(
+			this.state.arr_vals,
+			this.state.actions,
+			Math.max(MAXIMUM_ANIMATION_SPEED_MS / ANIMATION_SPEED_MS / 10, 1)
+		)
 		this.animate()
 	}
 
 	selectionSortHelper() {
-		selectionSort(this.state.arr_vals, this.state.actions)
+		selectionSort(
+			this.state.arr_vals,
+			this.state.actions,
+			Math.max(MAXIMUM_ANIMATION_SPEED_MS / ANIMATION_SPEED_MS / 10, 1)
+		)
 		this.animate()
 	}
 
 	insertionSortHelper() {
-		insertionSort(this.state.arr_vals, this.state.actions)
+		insertionSort(
+			this.state.arr_vals,
+			this.state.actions,
+			Math.max(MAXIMUM_ANIMATION_SPEED_MS / ANIMATION_SPEED_MS / 10, 1)
+		)
+		this.animate()
+	}
+
+	heapSortHelper() {
+		heapSort(
+			this.state.arr_vals,
+			0,
+			NUMBER_OF_ARRAY_BARS - 1,
+			this.state.actions,
+			Math.max(MAXIMUM_ANIMATION_SPEED_MS / ANIMATION_SPEED_MS / 10, 1)
+		)
+		this.animate()
+	}
+
+	mergeSortHelper() {
+		console.log(this.state.arr_vals)
+		mergeSort(
+			this.state.arr_vals,
+			this.state.actions,
+			Math.max(MAXIMUM_ANIMATION_SPEED_MS / ANIMATION_SPEED_MS / 10, 1)
+		)
+		console.log(this.state.arr_vals)
+
+		complete(this.state.actions)
 		this.animate()
 	}
 
@@ -269,13 +329,23 @@ export default class SortingVisualizer extends Component {
 						></div>
 					))}
 				</div>
-				<button onClick={() => this.generateArray()}>Generate New Array</button>
-				<button onClick={() => this.bubbleSortHelper()}>Bubble Sort</button>
-				<button onClick={() => this.selectionSortHelper()}>
+				<button className="btn" onClick={() => this.generateArray()}>
+					Generate New Array
+				</button>
+				<button className="btn" onClick={() => this.bubbleSortHelper()}>
+					Bubble Sort
+				</button>
+				<button className="btn" onClick={() => this.selectionSortHelper()}>
 					Selection Sort
 				</button>
-				<button onClick={() => this.insertionSortHelper()}>
+				<button className="btn" onClick={() => this.insertionSortHelper()}>
 					Insertion Sort
+				</button>
+				<button className="btn" onClick={() => this.heapSortHelper()}>
+					Heap Sort
+				</button>
+				<button className="btn" onClick={() => this.mergeSortHelper()}>
+					Merge Sort
 				</button>
 			</>
 		)
