@@ -15,7 +15,7 @@ const MAXIMUM_ANIMATION_SPEED_MS = 1000
 const ANIMATION_SPEED_MS = 1
 
 // Change this value for the number of bars (value) in the array.
-const NUMBER_OF_ARRAY_BARS = 16
+const NUMBER_OF_ARRAY_BARS = 384
 
 // This is the main color of the array bars.
 const COMPARE_COLOR = "yellow"
@@ -35,7 +35,10 @@ const SWAPPING = 1
 const SWAPPED = 2
 const PUT1 = 3
 const PUT2 = 4
-const COMPLETE = 5
+const PUTCOLOR = 5
+const COMPLETE = 6
+
+let cancel = false
 
 export default class SortingVisualizer extends Component {
 	constructor(props) {
@@ -45,7 +48,9 @@ export default class SortingVisualizer extends Component {
 			arr: [],
 			arr_cols: [],
 			arr_vals: [],
-			actions: []
+			actions: [],
+			arr_cols_sorted: [],
+			cancel: false
 		}
 	}
 
@@ -130,9 +135,9 @@ export default class SortingVisualizer extends Component {
 			arr_cols_temp.push(`#${r}${g}${b}`)
 		}
 		let n = NUMBER_OF_ARRAY_BARS
-		console.log(arr_cols_temp)
 		const arr_cols_ordered = []
 		const arr_vals = []
+		const arr_cols_sorted = arr_cols_temp.slice()
 		while (n > 0) {
 			let x = randomInt(0, n - 1)
 			// console.log(x)
@@ -154,7 +159,12 @@ export default class SortingVisualizer extends Component {
 		// 	})
 		// }
 		// console.log(arr)
-		this.setState({ arr, arr_cols: arr_cols_ordered, arr_vals })
+		this.setState({
+			arr,
+			arr_cols: arr_cols_ordered,
+			arr_vals,
+			arr_cols_sorted
+		})
 	}
 
 	processColorValue(val) {
@@ -184,13 +194,25 @@ export default class SortingVisualizer extends Component {
 		for (let i = 0; i < this.state.actions.length; ++i) {
 			const action = this.state.actions[i][0]
 			const first = this.state.actions[i][1]
+			// console.log(action + "," + first)
 			let bar1Style = bars[first].style
 			const second = this.state.actions[i][2]
 			let bar2Style
-			if (action !== PUT2 && action !== PUT1) {
+			if (action !== PUTCOLOR && action !== PUT2 && action !== PUT1) {
 				bar2Style = bars[second].style
 			}
-			if (action === COMPARE) {
+			// console.log(cancel)
+			if (cancel) {
+				setTimeout(() => {
+					console.log("canceling")
+					this.setState({ actions: [] })
+					for (let i = 0; i < btns.length; ++i) {
+						btns[i].disabled = false
+					}
+					cancel = false
+					return
+				}, i * ANIMATION_SPEED_MS)
+			} else if (action === COMPARE) {
 				setTimeout(() => {
 					bar1Style.backgroundColor = COMPARE_COLOR
 					bar2Style.backgroundColor = COMPARE_COLOR
@@ -220,6 +242,10 @@ export default class SortingVisualizer extends Component {
 			} else if (action === PUT2) {
 				setTimeout(() => {
 					bar1Style.height = `${second}px`
+				}, i * ANIMATION_SPEED_MS)
+			} else if (action === PUTCOLOR) {
+				setTimeout(() => {
+					bar1Style.backgroundColor = `${second}`
 				}, i * ANIMATION_SPEED_MS)
 			} else if (action === DEFAULT) {
 				setTimeout(() => {
@@ -300,16 +326,28 @@ export default class SortingVisualizer extends Component {
 	}
 
 	mergeSortHelper() {
-		console.log(this.state.arr_vals)
+		// console.log(this.state.arr_vals)
 		mergeSort(
 			this.state.arr_vals,
+			this.state.arr_cols,
 			this.state.actions,
-			Math.max(MAXIMUM_ANIMATION_SPEED_MS / ANIMATION_SPEED_MS / 10, 1)
+			Math.max(MAXIMUM_ANIMATION_SPEED_MS / ANIMATION_SPEED_MS / 50, 1)
 		)
-		console.log(this.state.arr_vals)
+		// console.log(this.state.actions)
 
-		complete(this.state.actions)
+		// complete(this.state.actions)
 		this.animate()
+	}
+
+	cancel() {
+		cancel = true
+		const bars = document.getElementsByClassName("bar")
+		for (let i = 0; i < bars.length; ++i) {
+			setTimeout(() => {
+				bars[i].style.backgroundColor = this.state.arr_cols_sorted[i]
+				bars[i].style.height = `${this.state.arr_vals[i]}px`
+			}, i * 50)
+		}
 	}
 
 	render() {
@@ -347,6 +385,7 @@ export default class SortingVisualizer extends Component {
 				<button className="btn" onClick={() => this.mergeSortHelper()}>
 					Merge Sort
 				</button>
+				<button onClick={() => this.cancel()}>Cancel</button>
 			</>
 		)
 	}

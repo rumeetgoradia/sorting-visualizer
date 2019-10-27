@@ -8,8 +8,8 @@
 }
 
 .bar {
-	width: 10px;
-	/* background-color: green; */
+	width: 1px;
+	background-color: green;
 	display: inline-block;
 	transition: all 0.3s ease;
 	margin: 0 1px;

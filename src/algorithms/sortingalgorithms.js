@@ -94,53 +94,125 @@ export function heapSort(arr, left, right, actions, reps) {
 	complete(actions)
 }
 
-export function mergeSort(arr, actions, reps) {
+export function mergeSort(arr, arrCols, actions, reps) {
 	if (arr.length <= 1) return
 	const auxArray = arr.slice()
-	mergePartition(arr, 0, arr.length - 1, auxArray, actions, reps)
+	const auxArrayCols = arrCols.slice()
+	mergePartition(
+		arr,
+		arrCols,
+		0,
+		arr.length - 1,
+		auxArray,
+		auxArrayCols,
+		actions,
+		reps
+	)
+	complete(actions)
 }
 
-function mergePartition(mainArr, start, end, auxArray, actions, reps) {
+function mergePartition(
+	mainArr,
+	arrCols,
+	start,
+	end,
+	auxArray,
+	auxArrayCols,
+	actions,
+	reps
+) {
 	if (start === end) return
 	const mid = Math.floor((start + end) / 2)
-	mergePartition(auxArray, start, mid, mainArr, actions, reps)
-	mergePartition(auxArray, mid + 1, end, mainArr, actions, reps)
-	mergeAction(mainArr, start, mid, end, auxArray, actions, reps)
+	mergePartition(
+		auxArray,
+		auxArrayCols,
+		start,
+		mid,
+		mainArr,
+		arrCols,
+		actions,
+		reps
+	)
+	mergePartition(
+		auxArray,
+		auxArrayCols,
+		mid + 1,
+		end,
+		mainArr,
+		arrCols,
+		actions,
+		reps
+	)
+	mergeAction(
+		mainArr,
+		arrCols,
+		start,
+		mid,
+		end,
+		auxArray,
+		auxArrayCols,
+		actions,
+		reps
+	)
+	for (let i = start; i < end; ++i) {
+		actions.push([-1, i + 1, i])
+	}
 }
 
-function mergeAction(mainArr, start, mid, end, auxArray, actions, reps) {
+function mergeAction(
+	mainArr,
+	arrCols,
+	start,
+	mid,
+	end,
+	auxArray,
+	auxArrayCols,
+	actions,
+	reps
+) {
 	let k = start,
 		i = start,
 		j = mid + 1
 	while (i <= mid && j <= end) {
+		// console.log("mid is " + mid + "and j is " + j)
 		if (lessThan(auxArray, i, j, actions, reps)) {
+			// console.log("mid is " + mid + "and j is " + j)
 			actions.push([-1, j, i])
-			put(k, auxArray[i], actions, reps)
+			put(k, auxArray[i], auxArrayCols[i], actions, reps)
 			mainArr[k] = auxArray[i]
+			arrCols[k] = auxArrayCols[i]
 			++k
 			++i
 		} else {
 			actions.push([-1, j, i])
-			put(k, auxArray[j], actions, reps)
+			put(k, auxArray[j], auxArrayCols[j], actions, reps)
+
 			mainArr[k] = auxArray[j]
+			arrCols[k] = auxArrayCols[j]
 			++k
 			++j
 		}
+
+		// console.log(arrCols, mainArr)
 	}
 	while (i <= mid) {
 		lessThan(auxArray, i, i, actions, reps)
 		actions.push([-1, i, i])
-		put(k, auxArray[i], actions, reps)
+		put(k, auxArray[i], auxArrayCols[i], actions, reps)
 		mainArr[k] = auxArray[i]
+		arrCols[k] = auxArrayCols[i]
 		++k
 		++i
+		// console.log(arrCols, mainArr)
 	}
 	while (j <= end) {
 		lessThan(auxArray, j, j, actions, reps)
 		actions.push([-1, j, j])
-		put(k, auxArray[j], actions, reps)
+		put(k, auxArray[j], auxArrayCols[j], actions, reps)
 		mainArr[k] = auxArray[j]
+		arrCols[k] = auxArrayCols[j]
 		++k
 		++j
+		// console.log(arrCols, mainArr)
 	}
 }

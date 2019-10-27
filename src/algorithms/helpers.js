@@ -16,15 +16,16 @@ export function swap(arr, x, y, actions, reps) {
 	// actions.push([2, x, y])
 }
 
-export function put(x, height, actions, reps) {
+export function put(x, height, color, actions, reps) {
 	for (let i = 0; i < reps; ++i) {
 		actions.push([3, x, height])
 	}
 	actions.push([4, x, height])
+	actions.push([5, x, color])
 }
 
 export function complete(actions) {
-	actions.push([5, 0, 0])
+	actions.push([6, 0, 0])
 }
 
 export function randomInt(min, max) {
