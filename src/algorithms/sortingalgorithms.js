@@ -1,4 +1,4 @@
-import { lessThan, swap, complete, put } from "./helpers"
+import { lessThan, swap, complete, put, randomInt } from "./helpers"
 
 export function bubbleSort(arr, actions, reps) {
 	let n = arr.length
@@ -22,6 +22,7 @@ export function insertionSort(arr, actions, reps) {
 				swap(arr, j, j - 1, actions, reps)
 			} else {
 				actions.push([-1, j, j - 1])
+				break
 			}
 		}
 	}
@@ -108,6 +109,9 @@ export function mergeSort(arr, arrCols, actions, reps) {
 		actions,
 		reps
 	)
+	for (let i = 0; i < arr.length - 1; ++i) {
+		actions.push([-1, i + 1, i])
+	}
 	complete(actions)
 }
 
@@ -154,9 +158,6 @@ function mergePartition(
 		actions,
 		reps
 	)
-	for (let i = start; i < end; ++i) {
-		actions.push([-1, i + 1, i])
-	}
 }
 
 function mergeAction(
@@ -175,18 +176,16 @@ function mergeAction(
 		j = mid + 1
 	while (i <= mid && j <= end) {
 		// console.log("mid is " + mid + "and j is " + j)
-		if (lessThan(auxArray, i, j, actions, reps)) {
-			// console.log("mid is " + mid + "and j is " + j)
-			actions.push([-1, j, i])
+		let check = lessThan(auxArray, i, j, actions, reps)
+		actions.push([-1, j, i])
+		if (check) {
 			put(k, auxArray[i], auxArrayCols[i], actions, reps)
 			mainArr[k] = auxArray[i]
 			arrCols[k] = auxArrayCols[i]
 			++k
 			++i
 		} else {
-			actions.push([-1, j, i])
 			put(k, auxArray[j], auxArrayCols[j], actions, reps)
-
 			mainArr[k] = auxArray[j]
 			arrCols[k] = auxArrayCols[j]
 			++k
@@ -196,8 +195,8 @@ function mergeAction(
 		// console.log(arrCols, mainArr)
 	}
 	while (i <= mid) {
-		lessThan(auxArray, i, i, actions, reps)
-		actions.push([-1, i, i])
+		// lessThan(auxArray, i, i, actions, reps)
+		// actions.push([-1, i, i])
 		put(k, auxArray[i], auxArrayCols[i], actions, reps)
 		mainArr[k] = auxArray[i]
 		arrCols[k] = auxArrayCols[i]
@@ -206,8 +205,8 @@ function mergeAction(
 		// console.log(arrCols, mainArr)
 	}
 	while (j <= end) {
-		lessThan(auxArray, j, j, actions, reps)
-		actions.push([-1, j, j])
+		// lessThan(auxArray, j, j, actions, reps)
+		// actions.push([-1, j, j])
 		put(k, auxArray[j], auxArrayCols[j], actions, reps)
 		mainArr[k] = auxArray[j]
 		arrCols[k] = auxArrayCols[j]
@@ -215,4 +214,33 @@ function mergeAction(
 		++j
 		// console.log(arrCols, mainArr)
 	}
+}
+
+export function quickSort(arr, left, right, actions, reps) {
+	if (left >= right) {
+		return
+	}
+	let pivot = partition(arr, left, right, actions, reps)
+	quickSort(arr, left, pivot - 1, actions, reps)
+	quickSort(arr, pivot + 1, right, actions, reps)
+}
+
+function partition(arr, left, right, actions, reps) {
+	let pivot = randomInt(left, right)
+	swap(arr, pivot, right, actions, reps)
+	pivot = left
+	for (let i = left; i < right; ++i) {
+		if (lessThan(arr, i, right, actions, reps)) {
+			if (i !== pivot) {
+				swap(arr, i, pivot, actions, reps)
+			} else {
+				actions.push([-1, right, i])
+			}
+			++pivot
+		} else {
+			actions.push([-1, i, right])
+		}
+	}
+	swap(arr, right, pivot, actions, reps)
+	return pivot
 }

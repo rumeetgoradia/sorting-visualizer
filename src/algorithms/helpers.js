@@ -17,11 +17,12 @@ export function swap(arr, x, y, actions, reps) {
 }
 
 export function put(x, height, color, actions, reps) {
-	for (let i = 0; i < reps; ++i) {
-		actions.push([3, x, height])
-	}
+	actions.push([3, x, height])
+	// for (let i = 1; i < reps / 2; ++i) {
+	// 	actions.push([3, x, height])
+	// }
 	actions.push([4, x, height])
-	actions.push([5, x, color])
+	actions.push([5, x, height])
 }
 
 export function complete(actions) {
