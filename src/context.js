@@ -1,8 +1,28 @@
 import React, { Component } from "react"
+import { randomInt, complete } from "./algorithms/helpers"
+import {
+	bubbleSort,
+	insertionSort,
+	selectionSort,
+	heapSort,
+	mergeSort,
+	quickSort
+} from "./algorithms/sortingalgorithms"
 
 const SortingContext = React.createContext()
 
-export default class context extends Component {
+const DEFAULT = -1
+const COMPARE = 0
+const SWAPPING = 1
+const SWAPPED = 2
+const PUT1 = 3
+const PUT2 = 4
+const PUTCOLOR = 5
+const COMPLETE = 6
+
+const MAXIMUM_ANIMATION_SPEED_MS = 2000
+
+class SortingProvider extends Component {
 	constructor(props) {
 		super(props)
 		this.state = {
@@ -14,8 +34,10 @@ export default class context extends Component {
 			algo: 0,
 			num_bars: 100,
 			speed: 50,
-			gradient1: "0000ff",
-			gradient2: "ff3300"
+			gradient: "0000ffff3300",
+			gradient2: "ff3300",
+			swap_color: "black",
+			compare_color: "yellow"
 		}
 	}
 
@@ -29,9 +51,13 @@ export default class context extends Component {
 			},
 			this.change
 		)
+		if (name !== "speed") {
+			this.generateArray()
+		}
 	}
 
 	componentDidMount() {
+		console.log("generating array")
 		this.generateArray()
 	}
 
@@ -44,7 +70,7 @@ export default class context extends Component {
 			arr_cols_temp = []
 		let min = 650,
 			max = 0
-		for (let i = 0; i < this.state.num_bars; ++i) {
+		for (let i = 0; i < parseInt(this.state.num_bars); ++i) {
 			let x = randomInt(5, 650)
 			if (x < min) {
 				min = x
@@ -55,16 +81,17 @@ export default class context extends Component {
 			arr_nums.push(x)
 		}
 		const sortedArr = arr_nums.slice().sort((a, b) => a - b)
-		const col1RGB = this.processColorValue(this.state.gradient1)
-		const col2RGB = this.processColorValue(this.state.gradient2)
+		const gradientRGB = this.processColorValues(this.state.gradient)
+		const col1RGB = gradientRGB[0]
+		const col2RGB = gradientRGB[1]
 		const colsDiffRGB = [
 			col2RGB[0] - col1RGB[0],
 			col2RGB[1] - col1RGB[1],
 			col2RGB[2] - col1RGB[2]
 		]
 		// console.log(colsDiffRGB)
-		let stepsPercent = 100 / this.state.num_bars
-		for (let i = 0; i < this.state.num_bars; ++i) {
+		let stepsPercent = 100 / parseInt(this.state.num_bars)
+		for (let i = 0; i < parseInt(this.state.num_bars); ++i) {
 			const r =
 				colsDiffRGB[0] > 0
 					? this.pad(
@@ -111,7 +138,7 @@ export default class context extends Component {
 			// console.log("r: " + r + ", g: " + g + ", b: " + b)
 			arr_cols_temp.push(`#${r}${g}${b}`)
 		}
-		let n = this.state.num_bars
+		let n = parseInt(this.state.num_bars)
 		const arr_cols_ordered = []
 		const arr_vals = []
 		const arr_cols_sorted = arr_cols_temp.slice()
@@ -144,12 +171,18 @@ export default class context extends Component {
 		})
 	}
 
-	processColorValue(val) {
-		const r = val.substr(0, 2)
-		const g = val.substr(2, 2)
-		const b = val.substr(4, 2)
+	processColorValues(val) {
+		const r1 = val.substr(0, 2)
+		const g1 = val.substr(2, 2)
+		const b1 = val.substr(4, 2)
+		const r2 = val.substr(6, 2)
+		const g2 = val.substr(8, 2)
+		const b2 = val.substr(10, 2)
 		// console.log("processColorValue: r: " + r + ", g:" + g + ", b: " + b)
-		return [parseInt(r, 16), parseInt(g, 16), parseInt(b, 16)]
+		return [
+			[parseInt(r1, 16), parseInt(g1, 16), parseInt(b1, 16)],
+			[parseInt(r2, 16), parseInt(g2, 16), parseInt(b2, 16)]
+		]
 	}
 
 	pad(n, width, z) {
@@ -158,16 +191,201 @@ export default class context extends Component {
 		return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n
 	}
 
+	bubbleSortHelper() {
+		bubbleSort(
+			this.state.arr_vals,
+			this.state.actions,
+			Math.max(MAXIMUM_ANIMATION_SPEED_MS / this.state.speed / 50, 1)
+		)
+		this.animate()
+	}
+
+	selectionSortHelper() {
+		selectionSort(
+			this.state.arr_vals,
+			this.state.actions,
+			Math.max(MAXIMUM_ANIMATION_SPEED_MS / this.state.speed / 50, 1)
+		)
+		this.animate()
+	}
+
+	insertionSortHelper() {
+		insertionSort(
+			this.state.arr_vals,
+			this.state.actions,
+			Math.max(MAXIMUM_ANIMATION_SPEED_MS / this.state.speed / 50, 1)
+		)
+		this.animate()
+	}
+
+	heapSortHelper() {
+		heapSort(
+			this.state.arr_vals,
+			0,
+			this.state.num_bars - 1,
+			this.state.actions,
+			Math.max(MAXIMUM_ANIMATION_SPEED_MS / this.state.speed / 50, 1)
+		)
+		this.animate()
+	}
+
+	mergeSortHelper() {
+		// console.log(this.state.arr_vals)
+		mergeSort(
+			this.state.arr_vals,
+			this.state.arr_cols,
+			this.state.actions,
+			Math.max(MAXIMUM_ANIMATION_SPEED_MS / this.state.speed / 50, 1)
+		)
+		// console.log(this.state.actions)
+
+		// complete(this.state.actions)
+		this.animate()
+	}
+
+	quickSortHelper() {
+		quickSort(
+			this.state.arr_vals,
+			0,
+			this.state.arr_vals.length - 1,
+			this.state.actions,
+			1
+		)
+		// let actions = this.state.actions.slice()
+		// for (let i = 0; i < this.state.arr_vals.length - 1; ++i) {
+		// 	actions.push([-1, i + 1, i])
+		// }
+		// this.setState({ actions })
+		complete(this.state.actions)
+		this.animate()
+	}
+
+	animate() {
+		if (this.state.actions.length === 0) {
+			return
+		}
+		const btns = document.getElementsByClassName("btn")
+
+		for (let i = 0; i < btns.length; ++i) {
+			btns[i].disabled = true
+		}
+
+		const bars = document.getElementsByClassName("bar")
+		for (let i = 0; i < this.state.actions.length; ++i) {
+			const action = this.state.actions[i][0]
+			const first = this.state.actions[i][1]
+			// console.log(action)
+			let bar1Style = bars[first].style
+			const second = this.state.actions[i][2]
+			let bar2Style
+			if (action !== PUTCOLOR && action !== PUT2 && action !== PUT1) {
+				bar2Style = bars[second].style
+			}
+			// console.log(cancel)
+			// if (cancel) {
+			// 	setTimeout(() => {
+			// 		console.log("canceling")
+			// 		this.setState({ actions: [] })
+			// 		for (let i = 0; i < btns.length; ++i) {
+			// 			btns[i].disabled = false
+			// 		}
+			// 		cancel = false
+			// 		return
+			// 	}, i * ANIMATION_SPEED_MS)
+			// } else
+			if (action === COMPARE) {
+				setTimeout(() => {
+					bar1Style.backgroundColor = this.state.compare_color
+					bar2Style.backgroundColor = this.state.compare_color
+				}, i * this.state.speed)
+			} else if (action === SWAPPING) {
+				setTimeout(() => {
+					bar1Style.backgroundColor = this.state.swap_color
+					bar2Style.backgroundColor = this.state.swap_color
+				}, i * this.state.speed)
+			} else if (action === SWAPPED) {
+				setTimeout(() => {
+					const arr_cols = this.state.arr_cols.slice()
+					const temp_color = arr_cols[first]
+					arr_cols[first] = arr_cols[second]
+					arr_cols[second] = temp_color
+					this.setState({ arr_cols })
+					const temp = bar1Style.height
+					bar1Style.height = bar2Style.height
+					bar2Style.height = temp
+					bar1Style.backgroundColor = arr_cols[first]
+					bar2Style.backgroundColor = arr_cols[second]
+				}, i * this.state.speed)
+			} else if (action === PUT1) {
+				setTimeout(() => {
+					bar1Style.backgroundColor = this.state.swap_color
+				}, i * this.state.speed)
+			} else if (action === PUT2) {
+				setTimeout(() => {
+					bar1Style.height = `${second}px`
+				}, i * this.state.speed)
+			} else if (action === PUTCOLOR) {
+				setTimeout(() => {
+					let color = this.state.arr_cols_sorted[
+						this.state.arr_vals.indexOf(second)
+					]
+
+					bar1Style.backgroundColor = `${color}`
+				}, i * this.state.speed)
+			} else if (action === DEFAULT) {
+				setTimeout(() => {
+					let arr_cols = this.state.arr_cols.slice()
+					// console.log(arr_cols)
+					const gradientColVal = parseInt(this.state.color1, 16)
+					const firstColVal = parseInt(arr_cols[first].substr(1, 6), 16)
+					const secondColVal = parseInt(arr_cols[second].substr(1, 6), 16)
+					if (
+						Math.abs(firstColVal - gradientColVal) <
+						Math.abs(secondColVal - gradientColVal)
+					) {
+						let temp_color = arr_cols[first]
+						arr_cols[first] = arr_cols[second]
+						arr_cols[second] = temp_color
+					}
+					this.setState({ arr_cols })
+
+					bar1Style.backgroundColor = arr_cols[first]
+					bar2Style.backgroundColor = arr_cols[second]
+				}, i * this.state.speed)
+			} else if (action === COMPLETE) {
+				setTimeout(() => {
+					const container = document.getElementById("bars-container")
+					container.classList.add("complete")
+					for (let i = 0; i < btns.length; ++i) {
+						btns[i].disabled = false
+					}
+				}, i * this.state.speed + 750)
+			}
+		}
+
+		// console.log(this.state.arr_cols)
+		this.setState({
+			actions: []
+		})
+		// generate.removeAttribute("disabled")
+	}
+
 	render() {
 		return (
 			<SortingContext.Provider
 				value={{
 					...this.state,
 					handleChange: this.handleChange,
-					generateArray: this.generateArray
+					generateArray: this.generateArray,
+					bubbleSort: this.bubbleSortHelper,
+					insertionSort: this.insertionSortHelper,
+					selectionSort: this.selectionSortHelper,
+					heapSort: this.heapSortHelper,
+					mergeSort: this.mergeSortHelper,
+					quickSort: this.quickSortHelper
 				}}
 			>
-				{this.props.childrens}
+				{this.props.children}
 			</SortingContext.Provider>
 		)
 	}

@@ -7,9 +7,9 @@ import {
 	heapSort,
 	mergeSort,
 	quickSort
-} from "../algorithms/sortingalgorithms"
+} from "../../algorithms/sortingalgorithms"
 
-import { randomInt, complete } from "../algorithms/helpers"
+import { randomInt, complete } from "../../algorithms/helpers"
 
 import OptionsBar from "./OptionsBar"
 
