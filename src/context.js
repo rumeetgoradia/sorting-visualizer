@@ -31,9 +31,8 @@ class SortingProvider extends Component {
 			arr_vals: [],
 			actions: [],
 			arr_cols_sorted: [],
-			algo: 0,
-			num_bars: 100,
-			speed: 50,
+			num_bars: "100",
+			speed: "50",
 			gradient: "0000ffff3300",
 			gradient2: "ff3300",
 			swap_color: "black",
@@ -195,7 +194,7 @@ class SortingProvider extends Component {
 		bubbleSort(
 			this.state.arr_vals,
 			this.state.actions,
-			Math.max(MAXIMUM_ANIMATION_SPEED_MS / this.state.speed / 50, 1)
+			Math.max(MAXIMUM_ANIMATION_SPEED_MS / parseInt(this.state.speed) / 50, 1)
 		)
 		this.animate()
 	}
@@ -204,7 +203,7 @@ class SortingProvider extends Component {
 		selectionSort(
 			this.state.arr_vals,
 			this.state.actions,
-			Math.max(MAXIMUM_ANIMATION_SPEED_MS / this.state.speed / 50, 1)
+			Math.max(MAXIMUM_ANIMATION_SPEED_MS / parseInt(this.state.speed) / 50, 1)
 		)
 		this.animate()
 	}
@@ -213,7 +212,7 @@ class SortingProvider extends Component {
 		insertionSort(
 			this.state.arr_vals,
 			this.state.actions,
-			Math.max(MAXIMUM_ANIMATION_SPEED_MS / this.state.speed / 50, 1)
+			Math.max(MAXIMUM_ANIMATION_SPEED_MS / parseInt(this.state.speed) / 50, 1)
 		)
 		this.animate()
 	}
@@ -224,7 +223,7 @@ class SortingProvider extends Component {
 			0,
 			this.state.num_bars - 1,
 			this.state.actions,
-			Math.max(MAXIMUM_ANIMATION_SPEED_MS / this.state.speed / 50, 1)
+			Math.max(MAXIMUM_ANIMATION_SPEED_MS / parseInt(this.state.speed) / 50, 1)
 		)
 		this.animate()
 	}
@@ -235,7 +234,7 @@ class SortingProvider extends Component {
 			this.state.arr_vals,
 			this.state.arr_cols,
 			this.state.actions,
-			Math.max(MAXIMUM_ANIMATION_SPEED_MS / this.state.speed / 50, 1)
+			Math.max(MAXIMUM_ANIMATION_SPEED_MS / parseInt(this.state.speed) / 50, 1)
 		)
 		// console.log(this.state.actions)
 
@@ -297,12 +296,12 @@ class SortingProvider extends Component {
 				setTimeout(() => {
 					bar1Style.backgroundColor = this.state.compare_color
 					bar2Style.backgroundColor = this.state.compare_color
-				}, i * this.state.speed)
+				}, i * parseInt(this.state.speed))
 			} else if (action === SWAPPING) {
 				setTimeout(() => {
 					bar1Style.backgroundColor = this.state.swap_color
 					bar2Style.backgroundColor = this.state.swap_color
-				}, i * this.state.speed)
+				}, i * parseInt(this.state.speed))
 			} else if (action === SWAPPED) {
 				setTimeout(() => {
 					const arr_cols = this.state.arr_cols.slice()
@@ -315,15 +314,15 @@ class SortingProvider extends Component {
 					bar2Style.height = temp
 					bar1Style.backgroundColor = arr_cols[first]
 					bar2Style.backgroundColor = arr_cols[second]
-				}, i * this.state.speed)
+				}, i * parseInt(this.state.speed))
 			} else if (action === PUT1) {
 				setTimeout(() => {
 					bar1Style.backgroundColor = this.state.swap_color
-				}, i * this.state.speed)
+				}, i * parseInt(this.state.speed))
 			} else if (action === PUT2) {
 				setTimeout(() => {
 					bar1Style.height = `${second}px`
-				}, i * this.state.speed)
+				}, i * parseInt(this.state.speed))
 			} else if (action === PUTCOLOR) {
 				setTimeout(() => {
 					let color = this.state.arr_cols_sorted[
@@ -331,7 +330,7 @@ class SortingProvider extends Component {
 					]
 
 					bar1Style.backgroundColor = `${color}`
-				}, i * this.state.speed)
+				}, i * parseInt(this.state.speed))
 			} else if (action === DEFAULT) {
 				setTimeout(() => {
 					let arr_cols = this.state.arr_cols.slice()
@@ -351,7 +350,7 @@ class SortingProvider extends Component {
 
 					bar1Style.backgroundColor = arr_cols[first]
 					bar2Style.backgroundColor = arr_cols[second]
-				}, i * this.state.speed)
+				}, i * parseInt(this.state.speed))
 			} else if (action === COMPLETE) {
 				setTimeout(() => {
 					const container = document.getElementById("bars-container")
@@ -359,7 +358,7 @@ class SortingProvider extends Component {
 					for (let i = 0; i < btns.length; ++i) {
 						btns[i].disabled = false
 					}
-				}, i * this.state.speed + 750)
+				}, i * parseInt(this.state.speed) + 750)
 			}
 		}
 
