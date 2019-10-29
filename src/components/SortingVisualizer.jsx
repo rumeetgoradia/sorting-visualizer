@@ -11,6 +11,8 @@ import {
 
 import { randomInt, complete } from "../algorithms/helpers"
 
+import OptionsBar from "./OptionsBar"
+
 // Change this value for the speed of the animations.
 const MAXIMUM_ANIMATION_SPEED_MS = 1000
 const ANIMATION_SPEED_MS = 1
@@ -24,8 +26,8 @@ const COMPARE_COLOR = "yellow"
 // This is the color of array bars that are being compared throughout the animations.
 const SWAP_COLOR = "black"
 
-const GRADIENT_1 = "0000ff"
-const GRADIENT_2 = "ff3300"
+// let GRADIENT_1 = "0000ff"
+// let GRADIENT_2 = "ff3300"
 
 // const GRADIENT_1 = "ff0000"
 // const GRADIENT_2 = "0000ff"
@@ -51,8 +53,10 @@ export default class SortingVisualizer extends Component {
 			arr_vals: [],
 			actions: [],
 			arr_cols_sorted: [],
-			cancel: false
+			color1: "0000ff",
+			color2: "ff3300"
 		}
+		// this.color = this.color.bind(this)
 	}
 
 	componentDidMount() {
@@ -79,8 +83,8 @@ export default class SortingVisualizer extends Component {
 			arr_nums.push(x)
 		}
 		const sortedArr = arr_nums.slice().sort((a, b) => a - b)
-		const col1RGB = this.processColorValue(GRADIENT_1)
-		const col2RGB = this.processColorValue(GRADIENT_2)
+		const col1RGB = this.processColorValue(this.state.color1)
+		const col2RGB = this.processColorValue(this.state.color2)
 		const colsDiffRGB = [
 			col2RGB[0] - col1RGB[0],
 			col2RGB[1] - col1RGB[1],
@@ -191,7 +195,7 @@ export default class SortingVisualizer extends Component {
 		for (let i = 0; i < btns.length; ++i) {
 			btns[i].disabled = true
 		}
-		console.log(this.state.arr_cols_sorted)
+
 		const bars = document.getElementsByClassName("bar")
 		for (let i = 0; i < this.state.actions.length; ++i) {
 			const action = this.state.actions[i][0]
@@ -258,7 +262,7 @@ export default class SortingVisualizer extends Component {
 				setTimeout(() => {
 					let arr_cols = this.state.arr_cols.slice()
 					// console.log(arr_cols)
-					const gradientColVal = parseInt(GRADIENT_1, 16)
+					const gradientColVal = parseInt(this.state.color1, 16)
 					const firstColVal = parseInt(arr_cols[first].substr(1, 6), 16)
 					const secondColVal = parseInt(arr_cols[second].substr(1, 6), 16)
 					if (
@@ -270,7 +274,6 @@ export default class SortingVisualizer extends Component {
 						arr_cols[second] = temp_color
 					}
 					this.setState({ arr_cols })
-					console.log("fixing first: " + first + " and second: " + second)
 
 					bar1Style.backgroundColor = arr_cols[first]
 					bar2Style.backgroundColor = arr_cols[second]
@@ -390,27 +393,8 @@ export default class SortingVisualizer extends Component {
 						></div>
 					))}
 				</div>
-				<button className="btn" onClick={() => this.generateArray()}>
-					Generate New Array
-				</button>
-				<button className="btn" onClick={() => this.bubbleSortHelper()}>
-					Bubble Sort
-				</button>
-				<button className="btn" onClick={() => this.selectionSortHelper()}>
-					Selection Sort
-				</button>
-				<button className="btn" onClick={() => this.insertionSortHelper()}>
-					Insertion Sort
-				</button>
-				<button className="btn" onClick={() => this.heapSortHelper()}>
-					Heap Sort
-				</button>
-				<button className="btn" onClick={() => this.mergeSortHelper()}>
-					Merge Sort
-				</button>
-				<button className="btn" onClick={() => this.quickSortHelper()}>
-					Quick Sort
-				</button>
+				<button onClick={this.changeColor}>Change color</button>
+				{/* <OptionsBar onClick={this.choose.bind(this)} /> */}
 			</>
 		)
 	}
