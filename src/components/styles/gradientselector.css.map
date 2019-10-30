@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AAAA,AAAA,4BAA4B,CAAC;EAC5B,aAAa,EAAE,GAAG;EAClB,UAAU,EAAE,WAAW;EACvB,KAAK,EAAE,KAAK;EACZ,MAAM,EAAE,IAAI;CACZ;;AAED,AAAA,uBAAuB,CAAC;EACvB,KAAK,EAAE,IAAI;EACX,MAAM,EAAE,IAAI;CACZ",
+    "sources": [
+        "gradientselector.scss"
+    ],
+    "names": [],
+    "file": "gradientselector.css"
+}

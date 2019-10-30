@@ -11,9 +11,7 @@ export function bubbleSort(arr, actions, reps) {
 			}
 		}
 	}
-	for (let i = 0; i < arr.length - 1; ++i) {
-		actions.push([-1, i + 1, i])
-	}
+
 	complete(actions)
 }
 
@@ -29,9 +27,7 @@ export function insertionSort(arr, actions, reps) {
 			}
 		}
 	}
-	for (let i = 0; i < arr.length - 1; ++i) {
-		actions.push([-1, i + 1, i])
-	}
+
 	complete(actions)
 }
 
@@ -49,9 +45,7 @@ export function selectionSort(arr, actions, reps) {
 		}
 		swap(arr, i, min, actions, reps)
 	}
-	for (let i = 0; i < arr.length - 1; ++i) {
-		actions.push([-1, i + 1, i])
-	}
+
 	complete(actions)
 }
 
@@ -101,9 +95,7 @@ export function heapSort(arr, left, right, actions, reps) {
 		--end
 		sift_down(left, end)
 	}
-	for (let i = 0; i < arr.length - 1; ++i) {
-		actions.push([-1, i + 1, i])
-	}
+
 	complete(actions)
 }
 
@@ -235,9 +227,6 @@ export function quickSort(arr, left, right, actions, reps) {
 	let pivot = partition(arr, left, right, actions, reps)
 	quickSort(arr, left, pivot - 1, actions, reps)
 	quickSort(arr, pivot + 1, right, actions, reps)
-	for (let i = 0; i < arr.length - 1; ++i) {
-		actions.push([-1, i + 1, i])
-	}
 }
 
 function partition(arr, left, right, actions, reps) {

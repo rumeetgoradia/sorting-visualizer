@@ -4,7 +4,7 @@ import BarsOptions from "./BarsOptions"
 import { withSortingConsumer } from "../context"
 
 function SortingVisualizer({ context }) {
-	const { loading, arr, arr_cols, arr_vals } = context
+	const { arr } = context
 	return (
 		<div>
 			<BarsOptions />

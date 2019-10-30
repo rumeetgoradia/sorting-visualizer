@@ -35,7 +35,7 @@ class SortingProvider extends Component {
 			swap_color: "black",
 			compare_color: "yellow",
 			max_speed: 2000,
-			max_bars: 250,
+			max_bars: 350,
 			min_speed: 5,
 			min_bars: 4
 		}
@@ -152,7 +152,7 @@ class SortingProvider extends Component {
 		// 	// console.log("r: " + r + ", g: " + g + ", b: " + b)
 		// 	arr_cols_temp.push(`#${r}${g}${b}`)
 		// }
-		console.log(arr_cols_temp)
+		// console.log(arr_cols_temp)
 		let n = parseInt(this.state.num_bars)
 		const arr_cols_ordered = []
 		const arr_vals = []
@@ -223,11 +223,11 @@ class SortingProvider extends Component {
 		return result
 	}
 
-	pad(n, width, z) {
-		z = z || "0"
-		n = n + ""
-		return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n
-	}
+	// pad(n, width, z) {
+	// 	z = z || "0"
+	// 	n = n + ""
+	// 	return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n
+	// }
 
 	bubbleSortHelper = () => {
 		console.log("bubble sorting")
@@ -277,9 +277,6 @@ class SortingProvider extends Component {
 			this.state.actions,
 			Math.max(this.state.max_speed / parseInt(this.state.speed) / 50, 1)
 		)
-		// console.log(this.state.actions)
-
-		// complete(this.state.actions)
 		this.animate()
 	}
 
@@ -291,11 +288,6 @@ class SortingProvider extends Component {
 			this.state.actions,
 			1
 		)
-		// let actions = this.state.actions.slice()
-		// for (let i = 0; i < this.state.arr_vals.length - 1; ++i) {
-		// 	actions.push([-1, i + 1, i])
-		// }
-		// this.setState({ actions })
 		complete(this.state.actions)
 		this.animate()
 	}
@@ -321,18 +313,6 @@ class SortingProvider extends Component {
 			if (action !== PUTCOLOR && action !== PUT2 && action !== PUT1) {
 				bar2Style = bars[second].style
 			}
-			// console.log(cancel)
-			// if (cancel) {
-			// 	setTimeout(() => {
-			// 		console.log("canceling")
-			// 		this.setState({ actions: [] })
-			// 		for (let i = 0; i < btns.length; ++i) {
-			// 			btns[i].disabled = false
-			// 		}
-			// 		cancel = false
-			// 		return
-			// 	}, i * ANIMATION_SPEED_MS)
-			// } else
 			if (action === COMPARE) {
 				setTimeout(() => {
 					bar1Style.backgroundColor = this.state.compare_color
@@ -394,6 +374,9 @@ class SortingProvider extends Component {
 				}, i * parseInt(this.state.speed))
 			} else if (action === COMPLETE) {
 				setTimeout(() => {
+					for (let i = 0; i < bars.length; ++i) {
+						bars[i].style.backgroundColor = this.state.arr_cols_sorted[i]
+					}
 					const container = document.getElementById("bars-container")
 					container.classList.add("complete")
 					for (let i = 0; i < btns.length; ++i) {

@@ -1,0 +1,52 @@
+[
+	{
+		"name": "Evening Sunshine",
+		"color1": "#b92b27",
+		"color2": "#1565C0"
+	},
+	{
+		"name": "Sky",
+		"color1": "#076585",
+		"color2": "#eeeeee"
+	},
+	{
+		"name": "Anamnisar",
+		"color1": "#fbc7d4",
+		"color2": "#9796f0"
+	},
+	{
+		"name": "Windy",
+		"color1": "#acb6e5",
+		"color2": "#86fde8"
+	},
+	{
+		"name": "Metapolis",
+		"color1": "#659999",
+		"color2": "#f4791f"
+	},
+	{
+		"name": "By Design",
+		"color1": "#009fff",
+		"color2": "#ec2f4b"
+	},
+	{
+		"name": "Rainbow Blue",
+		"color1": "#00f260",
+		"color2": "#0575e6"
+	},
+	{
+		"name": "Summer",
+		"color1": "#22c1c3",
+		"color2": "#fdbb2d"
+	},
+	{
+		"name": "Celestial",
+		"color1": "#c33764",
+		"color2": "#1d2671"
+	},
+	{
+		"name": "Shore",
+		"color1": "#70e1f5",
+		"color2": "#ffd194"
+	}
+]
