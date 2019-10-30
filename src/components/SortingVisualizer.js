@@ -4,10 +4,10 @@ import BarsOptions from "./BarsOptions"
 import { withSortingConsumer } from "../context"
 
 function SortingVisualizer({ context }) {
-	console.log(context)
 	const { loading, arr, arr_cols, arr_vals } = context
 	return (
 		<div>
+			<BarsOptions />
 			<BarsDisplay bars={arr} />
 		</div>
 	)

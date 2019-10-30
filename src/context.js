@@ -20,8 +20,6 @@ const PUT2 = 4
 const PUTCOLOR = 5
 const COMPLETE = 6
 
-const MAXIMUM_ANIMATION_SPEED_MS = 2000
-
 class SortingProvider extends Component {
 	constructor(props) {
 		super(props)
@@ -32,11 +30,14 @@ class SortingProvider extends Component {
 			actions: [],
 			arr_cols_sorted: [],
 			num_bars: "100",
-			speed: "50",
+			speed: "150",
 			gradient: "0000ffff3300",
-			gradient2: "ff3300",
 			swap_color: "black",
-			compare_color: "yellow"
+			compare_color: "yellow",
+			max_speed: 2000,
+			max_bars: 250,
+			min_speed: 5,
+			min_bars: 4
 		}
 	}
 
@@ -44,14 +45,20 @@ class SortingProvider extends Component {
 		const target = event.target
 		const value = target.value
 		const name = event.target.name
-		this.setState(
-			{
-				[name]: value
-			},
-			this.change
-		)
 		if (name !== "speed") {
-			this.generateArray()
+			this.setState(
+				{
+					[name]: value
+				},
+				this.generateArray
+			)
+		} else {
+			this.setState(
+				{
+					[name]: value
+				},
+				() => console.log("updated speed")
+			)
 		}
 	}
 
@@ -60,8 +67,14 @@ class SortingProvider extends Component {
 		this.generateArray()
 	}
 
-	generateArray() {
-		this.setState({ arr: [], arr_cols: [], arr_vals: [], actions: [] })
+	generateArray = () => {
+		this.setState({
+			arr: [],
+			arr_cols: [],
+			arr_vals: [],
+			actions: [],
+			arr_cols_sorted: []
+		})
 		const container = document.getElementById("bars-container")
 		container.classList.remove("complete")
 		const arr = [],
@@ -70,7 +83,7 @@ class SortingProvider extends Component {
 		let min = 650,
 			max = 0
 		for (let i = 0; i < parseInt(this.state.num_bars); ++i) {
-			let x = randomInt(5, 650)
+			let x = randomInt(5, 450)
 			if (x < min) {
 				min = x
 			}
@@ -81,6 +94,7 @@ class SortingProvider extends Component {
 		}
 		const sortedArr = arr_nums.slice().sort((a, b) => a - b)
 		const gradientRGB = this.processColorValues(this.state.gradient)
+		console.log(gradientRGB)
 		const col1RGB = gradientRGB[0]
 		const col2RGB = gradientRGB[1]
 		const colsDiffRGB = [
@@ -88,6 +102,7 @@ class SortingProvider extends Component {
 			col2RGB[1] - col1RGB[1],
 			col2RGB[2] - col1RGB[2]
 		]
+		console.log(colsDiffRGB)
 		// console.log(colsDiffRGB)
 		let stepsPercent = 100 / parseInt(this.state.num_bars)
 		for (let i = 0; i < parseInt(this.state.num_bars); ++i) {
@@ -137,6 +152,7 @@ class SortingProvider extends Component {
 			// console.log("r: " + r + ", g: " + g + ", b: " + b)
 			arr_cols_temp.push(`#${r}${g}${b}`)
 		}
+		console.log(arr_cols_temp)
 		let n = parseInt(this.state.num_bars)
 		const arr_cols_ordered = []
 		const arr_vals = []
@@ -190,51 +206,53 @@ class SortingProvider extends Component {
 		return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n
 	}
 
-	bubbleSortHelper() {
+	bubbleSortHelper = () => {
+		console.log("bubble sorting")
+		console.log(this.state)
 		bubbleSort(
 			this.state.arr_vals,
 			this.state.actions,
-			Math.max(MAXIMUM_ANIMATION_SPEED_MS / parseInt(this.state.speed) / 50, 1)
+			Math.max(this.state.max_speed / parseInt(this.state.speed) / 50, 1)
 		)
 		this.animate()
 	}
 
-	selectionSortHelper() {
+	selectionSortHelper = () => {
 		selectionSort(
 			this.state.arr_vals,
 			this.state.actions,
-			Math.max(MAXIMUM_ANIMATION_SPEED_MS / parseInt(this.state.speed) / 50, 1)
+			Math.max(this.state.max_speed / parseInt(this.state.speed) / 50, 1)
 		)
 		this.animate()
 	}
 
-	insertionSortHelper() {
+	insertionSortHelper = () => {
 		insertionSort(
 			this.state.arr_vals,
 			this.state.actions,
-			Math.max(MAXIMUM_ANIMATION_SPEED_MS / parseInt(this.state.speed) / 50, 1)
+			Math.max(this.state.max_speed / parseInt(this.state.speed) / 50, 1)
 		)
 		this.animate()
 	}
 
-	heapSortHelper() {
+	heapSortHelper = () => {
 		heapSort(
 			this.state.arr_vals,
 			0,
 			this.state.num_bars - 1,
 			this.state.actions,
-			Math.max(MAXIMUM_ANIMATION_SPEED_MS / parseInt(this.state.speed) / 50, 1)
+			Math.max(this.state.max_speed / parseInt(this.state.speed) / 50, 1)
 		)
 		this.animate()
 	}
 
-	mergeSortHelper() {
+	mergeSortHelper = () => {
 		// console.log(this.state.arr_vals)
 		mergeSort(
 			this.state.arr_vals,
 			this.state.arr_cols,
 			this.state.actions,
-			Math.max(MAXIMUM_ANIMATION_SPEED_MS / parseInt(this.state.speed) / 50, 1)
+			Math.max(this.state.max_speed / parseInt(this.state.speed) / 50, 1)
 		)
 		// console.log(this.state.actions)
 
@@ -242,7 +260,7 @@ class SortingProvider extends Component {
 		this.animate()
 	}
 
-	quickSortHelper() {
+	quickSortHelper = () => {
 		quickSort(
 			this.state.arr_vals,
 			0,
@@ -335,19 +353,19 @@ class SortingProvider extends Component {
 				setTimeout(() => {
 					let arr_cols = this.state.arr_cols.slice()
 					// console.log(arr_cols)
-					const gradientColVal = parseInt(this.state.color1, 16)
+					const gradientColVal = parseInt(this.state.gradient.substr(0, 6), 16)
 					const firstColVal = parseInt(arr_cols[first].substr(1, 6), 16)
 					const secondColVal = parseInt(arr_cols[second].substr(1, 6), 16)
 					if (
+						bar1Style.height === bar2Style.height &&
 						Math.abs(firstColVal - gradientColVal) <
-						Math.abs(secondColVal - gradientColVal)
+							Math.abs(secondColVal - gradientColVal)
 					) {
 						let temp_color = arr_cols[first]
 						arr_cols[first] = arr_cols[second]
 						arr_cols[second] = temp_color
 					}
 					this.setState({ arr_cols })
-
 					bar1Style.backgroundColor = arr_cols[first]
 					bar2Style.backgroundColor = arr_cols[second]
 				}, i * parseInt(this.state.speed))
