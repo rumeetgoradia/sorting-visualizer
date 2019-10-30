@@ -18,7 +18,8 @@ export default function BarsOptions() {
 		num_bars,
 		max_speed,
 		min_speed,
-		speed
+		speed,
+		gradient
 	} = context
 
 	// console.log(context)
@@ -56,26 +57,30 @@ export default function BarsOptions() {
 					<input
 						type="radio"
 						name="gradient"
-						value="0000ffff3300"
+						value="b92b271565C0"
 						onChange={handleChange}
+						checked={gradient === "b92b271565C0"}
 					/>
 					<input
 						type="radio"
 						name="gradient"
-						value="076585dddddd"
+						value="076585eeeeee"
 						onChange={handleChange}
+						checked={gradient === "076585eeeeee"}
 					/>
 					<input
 						type="radio"
 						name="gradient"
-						value="9796f0fbc7d4"
+						value="fbc7d49796f0"
 						onChange={handleChange}
+						checked={gradient === "fbc7d49796f0"}
 					/>
 					<input
 						type="radio"
 						name="gradient"
-						value="86fde8acb6e5"
+						value="acb6e586fde8"
 						onChange={handleChange}
+						checked={gradient === "acb6e586fde8"}
 					/>{" "}
 					Windy
 				</div>

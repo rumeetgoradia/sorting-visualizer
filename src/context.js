@@ -31,7 +31,7 @@ class SortingProvider extends Component {
 			arr_cols_sorted: [],
 			num_bars: "100",
 			speed: "150",
-			gradient: "0000ffff3300",
+			gradient: "b92b271565C0",
 			swap_color: "black",
 			compare_color: "yellow",
 			max_speed: 2000,
@@ -78,8 +78,8 @@ class SortingProvider extends Component {
 		const container = document.getElementById("bars-container")
 		container.classList.remove("complete")
 		const arr = [],
-			arr_nums = [],
-			arr_cols_temp = []
+			arr_nums = []
+		let arr_cols_temp = []
 		let min = 650,
 			max = 0
 		for (let i = 0; i < parseInt(this.state.num_bars); ++i) {
@@ -94,64 +94,64 @@ class SortingProvider extends Component {
 		}
 		const sortedArr = arr_nums.slice().sort((a, b) => a - b)
 		const gradientRGB = this.processColorValues(this.state.gradient)
-		console.log(gradientRGB)
 		const col1RGB = gradientRGB[0]
 		const col2RGB = gradientRGB[1]
-		const colsDiffRGB = [
-			col2RGB[0] - col1RGB[0],
-			col2RGB[1] - col1RGB[1],
-			col2RGB[2] - col1RGB[2]
-		]
-		console.log(colsDiffRGB)
+		arr_cols_temp = this.interpolateColors(col1RGB, col2RGB)
+		// const colsDiffRGB = [
+		// 	col2RGB[0] - col1RGB[0],
+		// 	col2RGB[1] - col1RGB[1],
+		// 	col2RGB[2] - col1RGB[2]
+		// ]
 		// console.log(colsDiffRGB)
-		let stepsPercent = 100 / parseInt(this.state.num_bars)
-		for (let i = 0; i < parseInt(this.state.num_bars); ++i) {
-			const r =
-				colsDiffRGB[0] > 0
-					? this.pad(
-							Math.round(
-								(colsDiffRGB[0] / 100) * (stepsPercent * (i + 1))
-							).toString(16),
-							2
-					  )
-					: this.pad(
-							Math.round(
-								col1RGB[0] + (colsDiffRGB[0] / 100) * (stepsPercent * (i + 1))
-							).toString(16),
-							2
-					  )
-			const g =
-				colsDiffRGB[1] > 0
-					? this.pad(
-							Math.round(
-								(colsDiffRGB[1] / 100) * ((i + 1) * stepsPercent)
-							).toString(16),
-							2
-					  )
-					: this.pad(
-							Math.round(
-								col1RGB[1] + (colsDiffRGB[1] / 100) * (stepsPercent * (i + 1))
-							).toString(16),
-							2
-					  )
-			const b =
-				colsDiffRGB[2] > 0
-					? this.pad(
-							Math.round(
-								(colsDiffRGB[2] / 100) * ((i + 1) * stepsPercent)
-							).toString(16),
-							2
-					  )
-					: this.pad(
-							Math.round(
-								col1RGB[2] + (colsDiffRGB[2] / 100) * (stepsPercent * (i + 1))
-							).toString(16),
-							2
-					  )
+		// // console.log(colsDiffRGB)
+		// let stepsPercent = 100 / parseInt(this.state.num_bars)
+		// for (let i = 0; i < parseInt(this.state.num_bars); ++i) {
+		// 	const r =
+		// 		colsDiffRGB[0] > 0
+		// 			? this.pad(
+		// 					Math.round(
+		// 						(colsDiffRGB[0] / 100) * (stepsPercent * (i + 1))
+		// 					).toString(16),
+		// 					2
+		// 			  )
+		// 			: this.pad(
+		// 					Math.round(
+		// 						col1RGB[0] + (colsDiffRGB[0] / 100) * (stepsPercent * (i + 1))
+		// 					).toString(16),
+		// 					2
+		// 			  )
+		// 	const g =
+		// 		colsDiffRGB[1] > 0
+		// 			? this.pad(
+		// 					Math.round(
+		// 						(colsDiffRGB[1] / 100) * ((i + 1) * stepsPercent)
+		// 					).toString(16),
+		// 					2
+		// 			  )
+		// 			: this.pad(
+		// 					Math.round(
+		// 						col1RGB[1] + (colsDiffRGB[1] / 100) * (stepsPercent * (i + 1))
+		// 					).toString(16),
+		// 					2
+		// 			  )
+		// 	const b =
+		// 		colsDiffRGB[2] > 0
+		// 			? this.pad(
+		// 					Math.round(
+		// 						(colsDiffRGB[2] / 100) * ((i + 1) * stepsPercent)
+		// 					).toString(16),
+		// 					2
+		// 			  )
+		// 			: this.pad(
+		// 					Math.round(
+		// 						col1RGB[2] + (colsDiffRGB[2] / 100) * (stepsPercent * (i + 1))
+		// 					).toString(16),
+		// 					2
+		// 			  )
 
-			// console.log("r: " + r + ", g: " + g + ", b: " + b)
-			arr_cols_temp.push(`#${r}${g}${b}`)
-		}
+		// 	// console.log("r: " + r + ", g: " + g + ", b: " + b)
+		// 	arr_cols_temp.push(`#${r}${g}${b}`)
+		// }
 		console.log(arr_cols_temp)
 		let n = parseInt(this.state.num_bars)
 		const arr_cols_ordered = []
@@ -195,9 +195,32 @@ class SortingProvider extends Component {
 		const b2 = val.substr(10, 2)
 		// console.log("processColorValue: r: " + r + ", g:" + g + ", b: " + b)
 		return [
-			[parseInt(r1, 16), parseInt(g1, 16), parseInt(b1, 16)],
-			[parseInt(r2, 16), parseInt(g2, 16), parseInt(b2, 16)]
+			`${parseInt(r1, 16)}, ${parseInt(g1, 16)}, ${parseInt(b1, 16)}`,
+			`${parseInt(r2, 16)}, ${parseInt(g2, 16)}, ${parseInt(b2, 16)}`
 		]
+	}
+
+	interpolateColors = (color1, color2) => {
+		const stepFactor = 1 / (this.state.num_bars - 1)
+		const interpolatedColorArray = []
+		color1 = color1.match(/\d+/g).map(Number)
+		color2 = color2.match(/\d+/g).map(Number)
+
+		for (var i = 0; i < this.state.num_bars; i++) {
+			interpolatedColorArray.push(
+				`rgb(${this.interpolateColor(color1, color2, stepFactor * i)})`
+			)
+		}
+
+		return interpolatedColorArray
+	}
+
+	interpolateColor = (color1, color2, factor) => {
+		let result = color1.slice()
+		for (var i = 0; i < 3; i++) {
+			result[i] = Math.round(result[i] + factor * (color2[i] - color1[i]))
+		}
+		return result
 	}
 
 	pad(n, width, z) {
