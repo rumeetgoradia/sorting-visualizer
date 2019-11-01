@@ -226,12 +226,13 @@ class SortingProvider extends Component {
 			return
 		}
 		const toDisable = document.getElementsByClassName("disable")
-		const sliderGroups = document.getElementsByClassName("slider-group")
+		const disableDivs = document.getElementsByClassName("disableDiv")
 		for (let i = 0; i < toDisable.length; ++i) {
 			toDisable[i].disabled = true
 		}
-		sliderGroups[0].classList.add("disabled")
-		sliderGroups[1].classList.add("disabled")
+		for (let i = 0; i < disableDivs.length; ++i) {
+			disableDivs[i].classList.add("disabled")
+		}
 
 		const bars = document.getElementsByClassName("bar")
 		for (let i = 0; i < this.state.actions.length; ++i) {
@@ -313,8 +314,9 @@ class SortingProvider extends Component {
 					for (let i = 0; i < toDisable.length; ++i) {
 						toDisable[i].disabled = false
 					}
-					sliderGroups[0].classList.add("disabled")
-					sliderGroups[1].classList.add("disabled")
+					for (let i = 0; i < disableDivs.length; ++i) {
+						disableDivs[i].classList.add("disabled")
+					}
 				}, i * parseInt(this.state.speed) + 750)
 			}
 		}

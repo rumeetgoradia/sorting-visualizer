@@ -12,6 +12,7 @@
 	text-transform: uppercase;
 	color: var(--unfocused);
 	transition: all 0.3s ease;
+
 	h3 {
 		font-size: 1rem;
 		margin-bottom: 0;
@@ -23,7 +24,6 @@
 }
 
 .gradient-selector-wrapper:hover .gradient-selector-btn {
-	border-color: var(--focused);
 	border-color: var(--focused);
 	color: var(--focused);
 	letter-spacing: 2px;
@@ -48,6 +48,10 @@
 	outline: none;
 }
 
+.gradient-selector-btn:disabled {
+	border-color: var(--disabled);
+}
+
 .gradient-dropdown-list {
 	width: 100%;
 	height: auto;
@@ -59,14 +63,85 @@
 	border-bottom-left-radius: 20px;
 	border-bottom-right-radius: 20px;
 	z-index: 5;
+	padding-bottom: 20px;
+	animation: fadeOut 0.5s;
+}
+
+.fadeIn {
+	animation: fadeIn 0.5s;
+}
+
+@keyframes fadeIn {
+	from {
+		transform: translateY(-10px);
+		opacity: 0;
+	}
+	to {
+		transform: translateY(0px);
+		opacity: 1;
+	}
+}
+
+@keyframes fadeOut {
+	from {
+		transform: translateY(0px);
+		opacity: 1;
+	}
+	to {
+		transform: translateY(-10px);
+		opacity: 0;
+	}
 }
 
 .show {
-	display: block;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+}
+
+.show.gradient-dropdown-list {
+	transform: translateY(0px);
+	opacity: 1;
 }
 
 .dropIsShown {
 	border-bottom-left-radius: 0px;
 	border-bottom-right-radius: 0px;
 	border-bottom: 0px;
+}
+
+.gradient-dropdown-option {
+	flex-basis: 45%;
+	input {
+		position: absolute !important;
+		clip: rect(0, 0, 0, 0);
+		height: 1px;
+		width: 1px;
+		border: 0;
+		overflow: hidden;
+	}
+	label {
+		width: 140px;
+		border-radius: 10px;
+		border: solid 1px var(--unfocused);
+		text-transform: uppercase;
+		text-align: center;
+		line-height: 3;
+		transition: all 0.3s ease-in-out;
+		font-size: 0.85rem;
+		box-sizing: border-box;
+	}
+	label:hover {
+		border: solid 1px var(--focused);
+		box-shadow: 0px 0px 0px 1px var(--focused);
+		color: var(--focused);
+		letter-spacing: 2px;
+		cursor: pointer;
+	}
+	input:checked ~ label {
+		font-weight: 700;
+		border: solid 1px var(--focused);
+		box-shadow: 0px 0px 0px 1px var(--focused);
+		color: var(--focused);
+	}
 }

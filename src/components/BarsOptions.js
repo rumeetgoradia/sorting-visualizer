@@ -29,7 +29,7 @@ export default function BarsOptions() {
 	return (
 		<div className="container-fluid">
 			<section className="options-container row">
-				<div className="slider-group col-2">
+				<div className="slider-group col-2 disableDiv">
 					<label htmlFor="num_bars" className="slider-label">
 						Array Size
 					</label>
@@ -46,7 +46,7 @@ export default function BarsOptions() {
 
 					<h6 className="slider-value">{num_bars} elements</h6>
 				</div>
-				<div className="slider-group col-2">
+				<div className="slider-group col-2 disableDiv">
 					<label htmlFor="num_bars" className="slider-label">
 						Sorting Speed
 					</label>

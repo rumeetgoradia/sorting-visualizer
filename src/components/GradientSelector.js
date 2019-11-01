@@ -1,6 +1,6 @@
 import React, { Component } from "react"
 import gradientsList from "../gradients.json"
-import { IoIosArrowDown } from "react-icons/io"
+// import { IoIosArrowDown } from "react-icons/io"
 import "./styles/gradientselector.css"
 
 export default class GradientSelector extends Component {
@@ -9,8 +9,11 @@ export default class GradientSelector extends Component {
 		this.state = {
 			gradient_name: "",
 			color1: "",
-			color2: ""
+			color2: "",
+			dropdownVisible: false
 		}
+		this.showDropdown = this.showDropdown.bind(this)
+		this.handleOutsideClick = this.handleOutsideClick.bind(this)
 	}
 
 	componentDidMount() {
@@ -58,23 +61,48 @@ export default class GradientSelector extends Component {
 	}
 
 	showDropdown = () => {
+		document.getElementById("dropdown").classList.toggle("fadeOut")
 		document.getElementById("dropdown").classList.toggle("show")
+		document.getElementById("dropdown").classList.toggle("fadeIn")
+
 		document.getElementById("gradient-btn").classList.toggle("dropIsShown")
+		if (!this.state.dropdownVisible) {
+			// attach/remove event handler
+			document.addEventListener("click", this.handleOutsideClick, false)
+		} else {
+			document.removeEventListener("click", this.handleOutsideClick, false)
+		}
+
+		this.setState(prevState => ({
+			dropdownVisible: !prevState.dropdownVisible
+		}))
 	}
 
-	handleClick = event => {
-		console.log(event)
-		if (this.node.contains(event.target)) {
+	handleOutsideClick(e) {
+		// ignore clicks on the component itself
+		if (this.node.contains(e.target)) {
 			return
 		}
-		document.getElementById("dropdown").classList.toggle("show")
-		document.getElementById("gradient-btn").classList.toggle("dropIsShown")
+
+		this.showDropdown()
 	}
+
+	// handleClick = event => {
+	// 	console.log(event)
+	// 	if (this.node.contains(event.target)) {
+	// 		return
+	// 	}
+	// 	document.getElementById("dropdown").classList.toggle("show")
+	// 	document.getElementById("gradient-btn").classList.toggle("dropIsShown")
+	// }
 
 	render() {
 		return (
-			<section className="gradient-selector-container">
-				<div className="gradient-selector-wrapper">
+			<section
+				className="gradient-selector-container"
+				ref={node => (this.node = node)}
+			>
+				<div className="gradient-selector-wrapper disableDiv">
 					<button
 						className="gradient-selector-btn disable"
 						style={{
@@ -83,16 +111,17 @@ export default class GradientSelector extends Component {
 						onClick={this.showDropdown}
 						id="gradient-btn"
 					>
-						<h3>Gradient</h3>
-						<h4>{this.state.gradient_name}</h4>
+						<div className="col-12">
+							<h3>Gradient</h3>
+							<h4>{this.state.gradient_name}</h4>
+						</div>
 					</button>
 					<div
-						className="gradient-dropdown-list"
+						className="gradient-dropdown-list fadeOut"
 						id="dropdown"
 						style={{
 							background: `linear-gradient(to right, ${this.state.color1}, ${this.state.color2})`
 						}}
-						ref={node => (this.node = node)}
 					>
 						{gradientsList.map((item, index) => {
 							return (
@@ -107,11 +136,15 @@ export default class GradientSelector extends Component {
 											this.props.gradient ===
 											item.color1.substr(1, 6) + item.color2.substr(1, 6)
 										}
+									/>
+									<label
+										htmlFor={item.name}
 										style={{
 											background: `linear-gradient(to right, ${item.color1}, ${item.color2})`
 										}}
-									/>
-									<label htmlFor={item.name}>{item.name}</label>
+									>
+										{item.name}
+									</label>
 								</div>
 							)
 						})}
