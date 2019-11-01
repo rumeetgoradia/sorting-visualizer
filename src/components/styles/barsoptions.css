@@ -1,16 +1,8 @@
-:root {
-  --unfocused: #777777;
-  --focused: #eeeeee;
-  --disabled: #3f3f3f;
+header {
+  padding: 0;
 }
 
 .options-container {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
   background: #232526;
   /* fallback for old browsers */
   /* Chrome 10-25, Safari 5.1-6 */
@@ -19,12 +11,14 @@
   /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
   padding: 15px;
   color: var(--unfocused);
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  font-family: "Open Sans Condensed", sans-serif;
 }
 
 .slider-group {
   text-transform: uppercase;
-  -ms-flex-preferred-size: 15%;
-      flex-basis: 15%;
 }
 
 .slider-group:hover {
@@ -53,6 +47,10 @@
 
 .slider-group:hover .slider::-ms-slider-runnable-track {
   background: var(--focused);
+}
+
+.slider-group:hover .slider-label {
+  letter-spacing: 2px;
 }
 
 .disabled {
@@ -188,8 +186,13 @@
   transition: all 0.3s ease;
 }
 
+.slider-label {
+  margin: 0;
+}
+
 .slider-value {
   margin: 0.5rem 0;
+  font-size: 0.75rem;
 }
 
 .reverse-slider {
@@ -238,7 +241,7 @@
 }
 
 .algo-btn:hover {
-  letter-spacing: 3px;
+  letter-spacing: 2px;
   cursor: pointer;
   color: var(--focused);
 }

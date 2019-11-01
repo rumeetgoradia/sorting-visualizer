@@ -4,6 +4,7 @@ import "./index.css"
 import App from "./App"
 import * as serviceWorker from "./serviceWorker"
 import { SortingProvider } from "./context"
+import "bootstrap/dist/css/bootstrap.css"
 
 ReactDOM.render(
 	<SortingProvider>

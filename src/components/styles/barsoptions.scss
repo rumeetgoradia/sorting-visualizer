@@ -1,13 +1,8 @@
-:root {
-	--unfocused: #777777;
-	--focused: #eeeeee;
-	--disabled: #3f3f3f;
+header {
+	padding: 0;
 }
 
 .options-container {
-	display: flex;
-	// width: 100%;
-	justify-content: space-between;
 	background: #232526; /* fallback for old browsers */
 	background: -webkit-linear-gradient(
 		to left,
@@ -19,14 +14,14 @@
 		#414345,
 		#232526
 	); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-
 	padding: 15px;
 	color: var(--unfocused);
+	justify-content: space-between;
+	font-family: "Open Sans Condensed", sans-serif;
 }
 
 .slider-group {
 	text-transform: uppercase;
-	flex-basis: 15%;
 }
 
 .slider-group:hover {
@@ -49,6 +44,9 @@
 		background: var(--focused);
 	}
 	color: var(--focused);
+	.slider-label {
+		letter-spacing: 2px;
+	}
 }
 
 .disabled {
@@ -167,8 +165,13 @@
 	transition: all 0.3s ease;
 }
 
+.slider-label {
+	margin: 0;
+}
+
 .slider-value {
 	margin: 0.5rem 0;
+	font-size: 0.75rem;
 }
 
 .reverse-slider {
@@ -202,7 +205,7 @@
 }
 
 .algo-btn:hover {
-	letter-spacing: 3px;
+	letter-spacing: 2px;
 	cursor: pointer;
 	color: var(--focused);
 }
