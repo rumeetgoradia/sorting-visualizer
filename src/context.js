@@ -97,62 +97,6 @@ class SortingProvider extends Component {
 		const col1RGB = gradientRGB[0]
 		const col2RGB = gradientRGB[1]
 		arr_cols_temp = this.interpolateColors(col1RGB, col2RGB)
-		// const colsDiffRGB = [
-		// 	col2RGB[0] - col1RGB[0],
-		// 	col2RGB[1] - col1RGB[1],
-		// 	col2RGB[2] - col1RGB[2]
-		// ]
-		// console.log(colsDiffRGB)
-		// // console.log(colsDiffRGB)
-		// let stepsPercent = 100 / parseInt(this.state.num_bars)
-		// for (let i = 0; i < parseInt(this.state.num_bars); ++i) {
-		// 	const r =
-		// 		colsDiffRGB[0] > 0
-		// 			? this.pad(
-		// 					Math.round(
-		// 						(colsDiffRGB[0] / 100) * (stepsPercent * (i + 1))
-		// 					).toString(16),
-		// 					2
-		// 			  )
-		// 			: this.pad(
-		// 					Math.round(
-		// 						col1RGB[0] + (colsDiffRGB[0] / 100) * (stepsPercent * (i + 1))
-		// 					).toString(16),
-		// 					2
-		// 			  )
-		// 	const g =
-		// 		colsDiffRGB[1] > 0
-		// 			? this.pad(
-		// 					Math.round(
-		// 						(colsDiffRGB[1] / 100) * ((i + 1) * stepsPercent)
-		// 					).toString(16),
-		// 					2
-		// 			  )
-		// 			: this.pad(
-		// 					Math.round(
-		// 						col1RGB[1] + (colsDiffRGB[1] / 100) * (stepsPercent * (i + 1))
-		// 					).toString(16),
-		// 					2
-		// 			  )
-		// 	const b =
-		// 		colsDiffRGB[2] > 0
-		// 			? this.pad(
-		// 					Math.round(
-		// 						(colsDiffRGB[2] / 100) * ((i + 1) * stepsPercent)
-		// 					).toString(16),
-		// 					2
-		// 			  )
-		// 			: this.pad(
-		// 					Math.round(
-		// 						col1RGB[2] + (colsDiffRGB[2] / 100) * (stepsPercent * (i + 1))
-		// 					).toString(16),
-		// 					2
-		// 			  )
-
-		// 	// console.log("r: " + r + ", g: " + g + ", b: " + b)
-		// 	arr_cols_temp.push(`#${r}${g}${b}`)
-		// }
-		// console.log(arr_cols_temp)
 		let n = parseInt(this.state.num_bars)
 		const arr_cols_ordered = []
 		const arr_vals = []
@@ -171,13 +115,7 @@ class SortingProvider extends Component {
 			arr_cols_temp.splice(x, 1)
 			--n
 		}
-		// for (let i = 0; i < n; ++i) {
-		// 	arr.push({
-		// 		val: sortedArr[i],
-		// 		color: arr_cols[i]
-		// 	})
-		// }
-		// console.log(arr)
+
 		this.setState({
 			arr,
 			arr_cols: arr_cols_ordered,
@@ -193,7 +131,6 @@ class SortingProvider extends Component {
 		const r2 = val.substr(6, 2)
 		const g2 = val.substr(8, 2)
 		const b2 = val.substr(10, 2)
-		// console.log("processColorValue: r: " + r + ", g:" + g + ", b: " + b)
 		return [
 			`${parseInt(r1, 16)}, ${parseInt(g1, 16)}, ${parseInt(b1, 16)}`,
 			`${parseInt(r2, 16)}, ${parseInt(g2, 16)}, ${parseInt(b2, 16)}`
@@ -205,7 +142,6 @@ class SortingProvider extends Component {
 		const interpolatedColorArray = []
 		color1 = color1.match(/\d+/g).map(Number)
 		color2 = color2.match(/\d+/g).map(Number)
-
 		for (var i = 0; i < this.state.num_bars; i++) {
 			interpolatedColorArray.push(
 				`rgb(${this.interpolateColor(color1, color2, stepFactor * i)})`
@@ -222,12 +158,6 @@ class SortingProvider extends Component {
 		}
 		return result
 	}
-
-	// pad(n, width, z) {
-	// 	z = z || "0"
-	// 	n = n + ""
-	// 	return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n
-	// }
 
 	bubbleSortHelper = () => {
 		console.log("bubble sorting")
@@ -270,7 +200,6 @@ class SortingProvider extends Component {
 	}
 
 	mergeSortHelper = () => {
-		// console.log(this.state.arr_vals)
 		mergeSort(
 			this.state.arr_vals,
 			this.state.arr_cols,
@@ -296,11 +225,13 @@ class SortingProvider extends Component {
 		if (this.state.actions.length === 0) {
 			return
 		}
-		const btns = document.getElementsByClassName("btn")
-
-		for (let i = 0; i < btns.length; ++i) {
-			btns[i].disabled = true
+		const toDisable = document.getElementsByClassName("disable")
+		const sliderGroups = document.getElementsByClassName("slider-group")
+		for (let i = 0; i < toDisable.length; ++i) {
+			toDisable[i].disabled = true
 		}
+		sliderGroups[0].classList.add("disabled")
+		sliderGroups[1].classList.add("disabled")
 
 		const bars = document.getElementsByClassName("bar")
 		for (let i = 0; i < this.state.actions.length; ++i) {
@@ -379,18 +310,17 @@ class SortingProvider extends Component {
 					}
 					const container = document.getElementById("bars-container")
 					container.classList.add("complete")
-					for (let i = 0; i < btns.length; ++i) {
-						btns[i].disabled = false
+					for (let i = 0; i < toDisable.length; ++i) {
+						toDisable[i].disabled = false
 					}
+					sliderGroups[0].classList.add("disabled")
+					sliderGroups[1].classList.add("disabled")
 				}, i * parseInt(this.state.speed) + 750)
 			}
 		}
-
-		// console.log(this.state.arr_cols)
 		this.setState({
 			actions: []
 		})
-		// generate.removeAttribute("disabled")
 	}
 
 	render() {

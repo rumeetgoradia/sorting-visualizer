@@ -2,10 +2,6 @@ import React from "react"
 import { useContext } from "react"
 import { SortingContext } from "../context"
 import GradientSelector from "./GradientSelector"
-import Grid from "@material-ui/core/Grid"
-import Typography from "@material-ui/core/Typography"
-import Slider from "@material-ui/core/Slider"
-import Input from "@material-ui/core/Input"
 import "./styles/barsoptions.css"
 
 export default function BarsOptions() {
@@ -32,60 +28,39 @@ export default function BarsOptions() {
 
 	return (
 		<section className="options-container">
-			<div className="sliders">
-				<div className="slider-group">
-					{/* <Typography id="input-slider" gutterBottom>
-						Array Size
-					</Typography>
-					<Grid container alignItems="center">
-						<Grid item>
-							<Slider
-								value={parseInt(num_bars)}
-								onChange={handleChange}
-								aria-labelledby="input-slider"
-								track={false}
-							/>
-						</Grid>
-						<Grid item>
-							<Input
-								value={num_bars}
-								margin="dense"
-								onChange={handleChange}
-								inputProps={{
-									step: 4,
-									min: { min_bars },
-									max: { max_bars },
-									type: "number",
-									"aria-labelledby": "input-slider"
-								}}
-							/>
-						</Grid>
-					</Grid> */}
-					<label htmlFor="num_bars">Array Size</label>
-					<input
-						type="range"
-						name="num_bars"
-						min={min_bars}
-						max={max_bars}
-						id="num_bars"
-						value={num_bars}
-						onChange={handleChange}
-						className="form-control"
-					/>
-				</div>
-				<div className="slider-group">
-					<label htmlFor="num_bars">Sorting Duration</label>
-					<input
-						type="range"
-						name="speed"
-						min={min_speed}
-						max={max_speed}
-						id="speed"
-						value={speed}
-						onChange={handleChange}
-						className="form-control"
-					/>
-				</div>
+			<div className="slider-group">
+				<label htmlFor="num_bars" className="slider-label">
+					Array Size
+				</label>
+				<input
+					type="range"
+					name="num_bars"
+					min={min_bars}
+					max={max_bars}
+					id="num_bars"
+					value={num_bars}
+					onChange={handleChange}
+					className="slider disable"
+				/>
+
+				<h6 className="slider-value">{num_bars} elements</h6>
+			</div>
+			<div className="slider-group">
+				<label htmlFor="num_bars" className="slider-label">
+					Sorting Speed
+				</label>
+				<input
+					type="range"
+					name="speed"
+					min={min_speed}
+					max={max_speed}
+					id="speed"
+					value={speed}
+					onChange={handleChange}
+					className="slider reverse-slider disable"
+				/>
+
+				<h6 className="slider-value">{speed} ms per step</h6>
 			</div>
 			{/* <div className="gradient-selector">
 					<input
@@ -175,30 +150,32 @@ export default function BarsOptions() {
 			</div>
 			<section className="algo-btns-container">
 				<div className="algo-btns">
-					<button className="algo-btn" onClick={bubbleSort}>
+					<button className="algo-btn disable" onClick={bubbleSort}>
 						Bubble Sort
 					</button>
-					<button className="algo-btn" onClick={insertionSort}>
+					<button className="algo-btn disable" onClick={insertionSort}>
 						Insertion Sort
 					</button>
-					<button className="algo-btn" onClick={selectionSort}>
+					<button className="algo-btn disable" onClick={selectionSort}>
 						Selection Sort
 					</button>
 				</div>
 				<div className="algo-btns">
-					<button className="algo-btn" onClick={heapSort}>
+					<button className="algo-btn disable" onClick={heapSort}>
 						Heap Sort
 					</button>
-					<button className="algo-btn" onClick={mergeSort}>
+					<button className="algo-btn disable" onClick={mergeSort}>
 						Merge Sort
 					</button>
-					<button className="algo-btn" onClick={quickSort}>
+					<button className="algo-btn disable" onClick={quickSort}>
 						Quick Sort
 					</button>
 				</div>
 			</section>
 			<section className="gen-btn-container">
-				<button onClick={generateArray}>Generate New Array</button>
+				<button className="disable" onClick={generateArray}>
+					Generate New Array
+				</button>
 			</section>
 		</section>
 	)
