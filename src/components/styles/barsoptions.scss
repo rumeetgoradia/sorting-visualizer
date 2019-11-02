@@ -17,7 +17,10 @@ header {
 	padding: 15px;
 	color: var(--unfocused);
 	justify-content: space-between;
+	align-items: center;
 	font-family: "Open Sans Condensed", sans-serif;
+	position: relative;
+	z-index: 5;
 }
 
 .slider-group {
@@ -212,4 +215,32 @@ header {
 
 .algo-btn:focus {
 	outline: none !important;
+}
+
+.gen-btn {
+	width: 60px;
+	height: 60px;
+	border-radius: 50%;
+	font-size: 2rem;
+	line-height: 1;
+	border: 0px;
+	text-align: center;
+	background-size: 4800% !important;
+	animation: color-change 3600s linear infinite;
+	color: var(--unfocused);
+	transition: all 0.3s ease;
+}
+
+.gen-btn:hover {
+	color: var(--focused);
+	cursor: pointer;
+}
+
+@keyframes color-change {
+	0% {
+		background-position: 0%;
+	}
+	100% {
+		background-position: 4800%;
+	}
 }

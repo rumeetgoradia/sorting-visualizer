@@ -14,7 +14,12 @@ header {
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   font-family: "Open Sans Condensed", sans-serif;
+  position: relative;
+  z-index: 5;
 }
 
 .slider-group {
@@ -248,5 +253,44 @@ header {
 
 .algo-btn:focus {
   outline: none !important;
+}
+
+.gen-btn {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  font-size: 2rem;
+  line-height: 1;
+  border: 0px;
+  text-align: center;
+  background-size: 4800% !important;
+  -webkit-animation: color-change 3600s linear infinite;
+          animation: color-change 3600s linear infinite;
+  color: var(--unfocused);
+  -webkit-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+}
+
+.gen-btn:hover {
+  color: var(--focused);
+  cursor: pointer;
+}
+
+@-webkit-keyframes color-change {
+  0% {
+    background-position: 0%;
+  }
+  100% {
+    background-position: 4800%;
+  }
+}
+
+@keyframes color-change {
+  0% {
+    background-position: 0%;
+  }
+  100% {
+    background-position: 4800%;
+  }
 }
 /*# sourceMappingURL=barsoptions.css.map */

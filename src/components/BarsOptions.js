@@ -1,10 +1,9 @@
 import React from "react"
-import { useContext, useState } from "react"
+import { useContext } from "react"
 import { SortingContext } from "../context"
 import GradientSelector from "./GradientSelector"
 import { MdAutorenew } from "react-icons/md"
 import { GenerateButton } from "./styles/GenerateButton"
-import gradientsList from "../gradients.json"
 import "./styles/barsoptions.css"
 
 export default function BarsOptions() {
@@ -27,18 +26,18 @@ export default function BarsOptions() {
 		gradient
 	} = context
 
-	let colors = ""
+	// let colors = ""
 
-	for (let i = 0; i < gradientsList.length; ++i) {
-		colors += gradientsList[i].color1 + ", "
-		if (i !== gradientsList.length - 1) {
-			colors += gradientsList[i].color2 + ", "
-		} else {
-			colors += gradientsList[i].color2 + ", " + gradientsList[0].color1
-		}
-	}
+	// for (let i = 0; i < gradientsList.length; ++i) {
+	// 	colors += gradientsList[i].color1 + ", "
+	// 	if (i !== gradientsList.length - 1) {
+	// 		colors += gradientsList[i].color2 + ", "
+	// 	} else {
+	// 		colors += gradientsList[i].color2 + ", " + gradientsList[0].color1
+	// 	}
+	// }
 
-	console.log(colors)
+	// console.log(colors)
 
 	// console.log(context)
 
@@ -47,7 +46,7 @@ export default function BarsOptions() {
 			<section className="options-container row">
 				<section className="gen-btn-container col-1">
 					<GenerateButton
-						colors={colors}
+						// colors={colors}
 						onClick={generateArray}
 						className="disable"
 					>

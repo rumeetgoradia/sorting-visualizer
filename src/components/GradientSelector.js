@@ -18,20 +18,7 @@ export default class GradientSelector extends Component {
 
 	componentDidMount() {
 		this.updateState(this.props.gradient)
-		console.log(this.props)
-		const color1 = `#${this.props.gradient.substr(0, 6)}`
-		const color2 = `#${this.props.gradient.substr(6, 6)}`
-		console.log(color1, color2)
-		for (let i = 0; i < gradientsList.length; ++i) {
-			const gradient = gradientsList[i]
-			console.log(gradient)
-			if (gradient.color1 === color1 && gradient.color2 === color2) {
-				const gradient_name = gradient.name
-				this.setState({ gradient_name, color1, color2 })
 
-				return
-			}
-		}
 		document.addEventListener("mousedown", this.handleClick, false)
 	}
 
@@ -42,7 +29,7 @@ export default class GradientSelector extends Component {
 	updateState = gradient => {
 		const color1 = `#${gradient.substr(0, 6)}`
 		const color2 = `#${gradient.substr(6, 6)}`
-		console.log(color1, color2)
+
 		for (let i = 0; i < gradientsList.length; ++i) {
 			const gradientTemp = gradientsList[i]
 
