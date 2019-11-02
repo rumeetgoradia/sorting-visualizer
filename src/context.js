@@ -83,7 +83,7 @@ class SortingProvider extends Component {
 		let min = 650,
 			max = 0
 		for (let i = 0; i < parseInt(this.state.num_bars); ++i) {
-			let x = randomInt(5, 500)
+			let x = randomInt(5, 600)
 			if (x < min) {
 				min = x
 			}
