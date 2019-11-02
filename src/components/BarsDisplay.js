@@ -32,7 +32,7 @@ export default class BarsDisplay extends Component {
 								height: `${item.val}px`,
 								backgroundColor: `${item.color}`,
 								width: `${Math.max(
-									this.state.width / (2 * this.props.num_bars),
+									this.state.width / (1.5 * this.props.num_bars),
 									1
 								)}px`
 							}}

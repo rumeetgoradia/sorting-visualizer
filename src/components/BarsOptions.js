@@ -26,21 +26,6 @@ export default function BarsOptions() {
 		gradient
 	} = context
 
-	// let colors = ""
-
-	// for (let i = 0; i < gradientsList.length; ++i) {
-	// 	colors += gradientsList[i].color1 + ", "
-	// 	if (i !== gradientsList.length - 1) {
-	// 		colors += gradientsList[i].color2 + ", "
-	// 	} else {
-	// 		colors += gradientsList[i].color2 + ", " + gradientsList[0].color1
-	// 	}
-	// }
-
-	// console.log(colors)
-
-	// console.log(context)
-
 	return (
 		<div className="container-fluid">
 			<section className="options-container row">
