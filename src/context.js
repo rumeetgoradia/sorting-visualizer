@@ -35,7 +35,7 @@ class SortingProvider extends Component {
 			swap_color: "black",
 			compare_color: "yellow",
 			max_speed: 2000,
-			max_bars: 180,
+			max_bars: 181,
 			min_speed: 5,
 			min_bars: 4
 		}
@@ -214,13 +214,14 @@ class SortingProvider extends Component {
 		for (let i = 0; i < disableDivs.length; ++i) {
 			disableDivs[i].classList.add("disabled")
 		}
-
+		const container = document.getElementById("bars-container")
+		container.classList.remove("complete")
+		// console.log(this.state.arr_cols_sorted)
 		const bars = document.getElementsByClassName("bar")
 		for (let i = 0; i < this.state.actions.length; ++i) {
 			const action = this.state.actions[i][0]
 			const first = this.state.actions[i][1]
-			const container = document.getElementById("bars-container")
-			container.classList.remove("complete")
+
 			// console.log(action)
 			let bar1Style = bars[first].style
 			const second = this.state.actions[i][2]
@@ -289,18 +290,19 @@ class SortingProvider extends Component {
 					bar2Style.backgroundColor = arr_cols[second]
 					// }, i * parseInt(this.state.speed))
 				} else if (action === COMPLETE) {
-					// setTimeout(() => {
-					for (let i = 0; i < bars.length; ++i) {
-						bars[i].style.backgroundColor = this.state.arr_cols_sorted[i]
-					}
-					container.classList.add("complete")
-					for (let i = 0; i < toDisable.length; ++i) {
-						toDisable[i].disabled = false
-					}
-					for (let i = 0; i < disableDivs.length; ++i) {
-						disableDivs[i].classList.remove("disabled")
-					}
-					// }, i * parseInt(this.state.speed) + 750)
+					setTimeout(() => {
+						for (let i = 0; i < bars.length; ++i) {
+							bars[i].style.backgroundColor = this.state.arr_cols_sorted[i]
+						}
+
+						for (let i = 0; i < toDisable.length; ++i) {
+							toDisable[i].disabled = false
+						}
+						for (let i = 0; i < disableDivs.length; ++i) {
+							disableDivs[i].classList.remove("disabled")
+						}
+						container.classList.add("complete")
+					}, 750)
 				}
 			}, i * parseInt(this.state.speed))
 		}

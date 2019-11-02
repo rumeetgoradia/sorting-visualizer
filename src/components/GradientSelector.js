@@ -48,9 +48,7 @@ export default class GradientSelector extends Component {
 	}
 
 	showDropdown = () => {
-		document.getElementById("dropdown").classList.toggle("fadeOut")
 		document.getElementById("dropdown").classList.toggle("show")
-		document.getElementById("dropdown").classList.toggle("fadeIn")
 
 		document.getElementById("gradient-btn").classList.toggle("dropIsShown")
 		if (!this.state.dropdownVisible) {
@@ -104,7 +102,7 @@ export default class GradientSelector extends Component {
 						</div>
 					</button>
 					<div
-						className="gradient-dropdown-list fadeOut"
+						className="gradient-dropdown-list fadeIn"
 						id="dropdown"
 						style={{
 							background: `linear-gradient(to right, ${this.state.color1}, ${this.state.color2})`

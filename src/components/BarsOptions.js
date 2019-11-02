@@ -50,7 +50,7 @@ export default function BarsOptions() {
 						onClick={generateArray}
 						className="disable"
 					>
-						<MdAutorenew />
+						<MdAutorenew className="icon" />
 					</GenerateButton>
 				</section>
 				<div className="slider-group col-2 disableDiv">

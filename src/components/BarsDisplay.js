@@ -4,7 +4,7 @@ import "./styles/bars.css"
 export default class BarsDisplay extends Component {
 	constructor(props) {
 		super(props)
-		this.state = { width: 0, rerender: 1 }
+		this.state = { width: 0 }
 		this.updateWindowDimensions = this.updateWindowDimensions.bind(this)
 	}
 
@@ -18,9 +18,7 @@ export default class BarsDisplay extends Component {
 	}
 
 	updateWindowDimensions() {
-		this.setState({ width: window.innerWidth, rerender: 0 }, () => {
-			this.setState({ rerender: 1 })
-		})
+		this.setState({ width: window.innerWidth })
 	}
 
 	render() {
@@ -36,7 +34,7 @@ export default class BarsDisplay extends Component {
 								width: `${Math.max(
 									this.state.width / (2 * this.props.num_bars),
 									1
-								) * this.state.rerender}px`
+								)}px`
 							}}
 							className="bar"
 						></div>
