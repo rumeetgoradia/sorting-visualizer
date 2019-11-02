@@ -1,7 +1,10 @@
 import React from "react"
-import { useContext } from "react"
+import { useContext, useState } from "react"
 import { SortingContext } from "../context"
 import GradientSelector from "./GradientSelector"
+import { MdAutorenew } from "react-icons/md"
+import { GenerateButton } from "./styles/GenerateButton"
+import gradientsList from "../gradients.json"
 import "./styles/barsoptions.css"
 
 export default function BarsOptions() {
@@ -24,11 +27,33 @@ export default function BarsOptions() {
 		gradient
 	} = context
 
+	let colors = ""
+
+	for (let i = 0; i < gradientsList.length; ++i) {
+		colors += gradientsList[i].color1 + ", "
+		if (i !== gradientsList.length - 1) {
+			colors += gradientsList[i].color2 + ", "
+		} else {
+			colors += gradientsList[i].color2 + ", " + gradientsList[0].color1
+		}
+	}
+
+	console.log(colors)
+
 	// console.log(context)
 
 	return (
 		<div className="container-fluid">
 			<section className="options-container row">
+				<section className="gen-btn-container col-1">
+					<GenerateButton
+						colors={colors}
+						onClick={generateArray}
+						className="disable"
+					>
+						<MdAutorenew />
+					</GenerateButton>
+				</section>
 				<div className="slider-group col-2 disableDiv">
 					<label htmlFor="num_bars" className="slider-label">
 						Array Size
@@ -63,94 +88,11 @@ export default function BarsOptions() {
 
 					<h6 className="slider-value">{speed} ms per step</h6>
 				</div>
-				{/* <div className="gradient-selector">
-					<input
-						type="radio"
-						name="gradient"
-						value="b92b271565C0"
-						onChange={handleChange}
-						checked={gradient === "b92b271565C0"}
-						/>{" "}
-						Evening Sunshine
-						<input
-						type="radio"
-						name="gradient"
-						value="076585eeeeee"
-						onChange={handleChange}
-						checked={gradient === "076585eeeeee"}
-					/>{" "}
-					Sky
-					<input
-					type="radio"
-					name="gradient"
-						value="fbc7d49796f0"
-						onChange={handleChange}
-						checked={gradient === "fbc7d49796f0"}
-						/>{" "}
-					Anamnisar
-					<input
-						type="radio"
-						name="gradient"
-						value="acb6e586fde8"
-						onChange={handleChange}
-						checked={gradient === "acb6e586fde8"}
-						/>
-					Windy
-					<input
-						type="radio"
-						name="gradient"
-						value="659999f4791f"
-						onChange={handleChange}
-						checked={gradient === "659999f4791f"}
-						/>
-						Metapolis
-						<input
-						type="radio"
-						name="gradient"
-						value="009FFFec2F4B"
-						onChange={handleChange}
-						checked={gradient === "009FFFec2F4B"}
-						/>
-					By Design
-					<input
-						type="radio"
-						name="gradient"
-						value="00F2600575E6"
-						onChange={handleChange}
-						checked={gradient === "00F2600575E6"}
-						/>
-						Rainbow Blue
-					<input
-					type="radio"
-					name="gradient"
-					value="22c1c3fdbb2d"
-						onChange={handleChange}
-						checked={gradient === "22c1c3fdbb2d"}
-						/>
-						Summer
-					<input
-					type="radio"
-					name="gradient"
-						value="C337641D2671"
-						onChange={handleChange}
-						checked={gradient === "C337641D2671"}
-						/>
-					Celestial
-					<input
-					type="radio"
-						name="gradient"
-						value="70e1f5ffd194"
-						onChange={handleChange}
-						checked={gradient === "70e1f5ffd194"}
-						/>
-					Shore
-				</div> */}
-
 				<div className="gradient-selector col-3">
 					<GradientSelector gradient={gradient} change={handleChange} />
 				</div>
 				<section className="algo-btns-container col-4">
-					<div className="algo-btns">
+					<div className="algo-btns" style={{ marginBottom: ".5rem" }}>
 						<button className="algo-btn disable" onClick={bubbleSort}>
 							Bubble Sort
 						</button>
@@ -161,7 +103,7 @@ export default function BarsOptions() {
 							Selection Sort
 						</button>
 					</div>
-					<div className="algo-btns">
+					<div className="algo-btns" style={{ marginTop: ".5rem" }}>
 						<button className="algo-btn disable" onClick={heapSort}>
 							Heap Sort
 						</button>
@@ -172,11 +114,6 @@ export default function BarsOptions() {
 							Quick Sort
 						</button>
 					</div>
-				</section>
-				<section className="gen-btn-container col-1">
-					<button className="disable" onClick={generateArray}>
-						Generate New Array
-					</button>
 				</section>
 			</section>
 		</div>
