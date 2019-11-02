@@ -40,13 +40,13 @@
 		"color2": "#fdbb2d"
 	},
 	{
-		"name": "Celestial",
-		"color1": "#c33764",
-		"color2": "#1d2671"
-	},
-	{
 		"name": "Shore",
 		"color1": "#70e1f5",
 		"color2": "#ffd194"
+	},
+	{
+		"name": "Celestial",
+		"color1": "#1d2671",
+		"color2": "#c33764"
 	}
 ]
