@@ -302,7 +302,7 @@ class SortingProvider extends Component {
 							disableDivs[i].classList.remove("disabled")
 						}
 						container.classList.add("complete")
-					}, 750)
+					}, 500)
 				}
 			}, i * parseInt(this.state.speed))
 		}
