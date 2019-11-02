@@ -3,7 +3,6 @@ import { useContext } from "react"
 import { SortingContext } from "../context"
 import GradientSelector from "./GradientSelector"
 import { MdAutorenew } from "react-icons/md"
-import { GenerateButton } from "./styles/GenerateButton"
 import "./styles/barsoptions.css"
 
 export default function BarsOptions() {
@@ -30,13 +29,16 @@ export default function BarsOptions() {
 		<div className="container-fluid">
 			<section className="options-container row">
 				<section className="gen-btn-container col-1">
-					<GenerateButton
+					<button className="disable gen-btn" onClick={generateArray}>
+						<MdAutorenew className="icon" />
+					</button>
+					{/* <GenerateButton
 						// colors={colors}
 						onClick={generateArray}
 						className="disable"
 					>
 						<MdAutorenew className="icon" />
-					</GenerateButton>
+					</GenerateButton> */}
 				</section>
 				<div className="slider-group col-2 disableDiv">
 					<label htmlFor="num_bars" className="slider-label">

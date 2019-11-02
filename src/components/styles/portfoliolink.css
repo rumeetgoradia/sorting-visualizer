@@ -1,23 +1,41 @@
-.link {
-  text-decoration: none;
-  width: 25px;
-  height: 25px;
-  border-radius: 50%;
+.footer {
   position: fixed;
-  z-index: 6;
-  bottom: 10px;
-  right: 10px;
-}
-
-.logo {
+  bottom: 0;
   width: 100%;
-  height: 100%;
-  opacity: 0.7;
-  -webkit-transition: 0.3s ease;
-  transition: 0.3s ease;
+  height: 15px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  background: #232526;
+  /* fallback for old browsers */
+  /* Chrome 10-25, Safari 5.1-6 */
+  background: -webkit-gradient(linear, right top, left top, from(#414345), to(#232526));
+  background: linear-gradient(to left, #414345, #232526);
+  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  color: var(--unfocused);
+  font-size: 0.45rem;
+  font-family: "Open Sans Condensed", sans-serif;
+  -webkit-transition: all 0.3s ease;
+  transition: all 0.3s ease;
 }
 
-.link:hover .logo {
-  opacity: 1;
+.footer:hover {
+  color: var(--focused);
+}
+
+.footer:hover .link {
+  color: var(--focused);
+}
+
+.link {
+  color: var(--unfocused);
+  -webkit-transition: all 0.3s ease;
+  transition: all 0.3s ease;
 }
 /*# sourceMappingURL=portfoliolink.css.map */

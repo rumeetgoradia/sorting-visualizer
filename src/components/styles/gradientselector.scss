@@ -6,7 +6,7 @@
 	border-radius: 20px;
 	background: transparent;
 	width: 100%;
-	height: 74.8px;
+	height: 60px; //74.8px
 	padding: 5px;
 	border: var(--unfocused) 1px solid;
 	text-transform: uppercase;
@@ -14,12 +14,12 @@
 	transition: all 0.3s ease;
 
 	h3 {
-		font-size: 1rem;
+		font-size: 0.75rem; //1rem
 		margin-bottom: 0;
-		margin-top: 10px;
+		margin-top: 9px; //10px
 	}
 	h4 {
-		font-size: 0.75rem;
+		font-size: 0.5rem; //.75rem
 	}
 }
 
@@ -81,17 +81,6 @@
 	}
 }
 
-@keyframes fadeOut {
-	from {
-		transform: translateY(0px);
-		opacity: 1;
-	}
-	to {
-		transform: translateY(-10px);
-		opacity: 0;
-	}
-}
-
 .show {
 	display: flex;
 	flex-wrap: wrap;
@@ -120,21 +109,21 @@
 		overflow: hidden;
 	}
 	label {
-		width: 140px;
+		width: 60px; //140px
 		border-radius: 10px;
 		border: solid 1px var(--unfocused);
 		text-transform: uppercase;
 		text-align: center;
 		line-height: 3;
 		transition: all 0.3s ease-in-out;
-		font-size: 0.85rem;
+		font-size: 0.55rem; //.85rem
 		box-sizing: border-box;
 	}
 	label:hover {
 		border: solid 1px var(--focused);
 		box-shadow: 0px 0px 0px 1px var(--focused);
 		color: var(--focused);
-		letter-spacing: 2px;
+		// letter-spacing: 2px;
 		cursor: pointer;
 	}
 	input:checked ~ label {
@@ -142,5 +131,27 @@
 		border: solid 1px var(--focused);
 		box-shadow: 0px 0px 0px 1px var(--focused);
 		color: var(--focused);
+	}
+}
+
+@media screen and (min-width: 992px) {
+	.gradient-selector-btn {
+		height: 74.8px;
+		h3 {
+			font-size: 1rem;
+			margin-top: 10px;
+		}
+		h4 {
+			font-size: 0.75rem;
+		}
+	}
+	.gradient-dropdown-option {
+		label {
+			width: 140px;
+			font-size: 0.85rem;
+			&:hover {
+				letter-spacing: 2px;
+			}
+		}
 	}
 }

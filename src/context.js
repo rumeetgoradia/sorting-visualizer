@@ -35,7 +35,7 @@ class SortingProvider extends Component {
 			swap_color: "black",
 			compare_color: "yellow",
 			max_speed: 2000,
-			max_bars: 181,
+			max_bars: 175,
 			min_speed: 5,
 			min_bars: 4
 		}
@@ -83,7 +83,7 @@ class SortingProvider extends Component {
 		let min = 650,
 			max = 0
 		for (let i = 0; i < parseInt(this.state.num_bars); ++i) {
-			let x = randomInt(5, 600)
+			let x = randomInt(5, 575)
 			if (x < min) {
 				min = x
 			}
